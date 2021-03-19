@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>XmlToJava.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project1</a> &gt; <a href="index.source.html" class="el_package">orm.utility</a> &gt; <span class="el_source">XmlToJava.java</span></div><h1>XmlToJava.java</h1><pre class="source lang-java linenums">package orm.utility;
+
+import org.w3c.dom.*;
+import orm.commands.*;
+import orm.commands.table.*;
+import orm.commands.table.alter.*;
+import orm.exceptions.*;
+
+import javax.xml.xpath.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class XmlToJava {
+
+    XPathFactory xPathFactory;
+    XPath xpath;
+    XPathExpression xPathExpression;
+
+<span class="nc" id="L20">    List&lt;String&gt; validColumnTypes = new ArrayList&lt;&gt;(Arrays.asList(&quot;text&quot;, &quot;int&quot;, &quot;auto-int&quot;, &quot;decimal&quot;, &quot;money&quot;, &quot;bool&quot;));</span>
+<span class="nc" id="L21">    List&lt;String&gt; validConstraints = new ArrayList&lt;&gt;(Arrays.asList(&quot;not-empty&quot;, &quot;unique&quot;, &quot;unique-id&quot;));</span>
+
+<span class="nc" id="L23">    public XmlToJava() {</span>
+<span class="nc" id="L24">        xPathFactory = XPathFactory.newInstance();</span>
+<span class="nc" id="L25">        xpath = xPathFactory.newXPath();</span>
+<span class="nc" id="L26">    }</span>
+
+    private NodeList getNodes(String expression, Document document) throws XPathExpressionException {
+<span class="nc" id="L29">        xPathExpression = xpath.compile(expression);</span>
+<span class="nc" id="L30">        Object result = xPathExpression.evaluate(document, XPathConstants.NODESET);</span>
+<span class="nc" id="L31">        return (NodeList) result;</span>
+    }
+
+    // TODO: make custom exceptions more descriptive
+    public Table run(Document document) throws XPathExpressionException, MultipleTagsException, NullAttributeException, InvalidAttributeException, NullTagException, NullContentException, InvalidContentException {
+
+<span class="nc" id="L37">        NodeList nl = document.getElementsByTagName(&quot;table&quot;);</span>
+        NodeList nl1;
+        NodeList nl2;
+        NodeList nl3;
+
+<span class="nc" id="L42">        Table table = new Table();</span>
+
+
+        // &lt;table&gt;
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        for (int i = 0; i &lt; nl.getLength(); i++) {</span>
+//            System.out.println(&quot;i: &quot; + i);
+//            System.out.println(nl.item(i).getNodeName());
+
+<span class="nc" id="L50">            Node tableName = nl.item(0).getAttributes().getNamedItem(&quot;name&quot;);</span>
+<span class="nc" id="L51">            Node tableSchema = nl.item(0).getAttributes().getNamedItem(&quot;schema&quot;);</span>
+
+            // Validates table
+<span class="nc bnc" id="L54" title="All 2 branches missed.">            if (nl.item(0) == null) {</span>
+<span class="nc" id="L55">                throw new NullTagException(&quot;table&quot;);</span>
+            }
+
+            // Validates table name
+<span class="nc bnc" id="L59" title="All 2 branches missed.">            if (tableName == null) {</span>
+<span class="nc" id="L60">                throw new NullAttributeException(&quot;name&quot;);</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">            } else if (tableName.getTextContent().equals(&quot;&quot;)) {</span>
+<span class="nc" id="L62">                throw new InvalidAttributeException(&quot;name&quot;, &quot;table&quot;);</span>
+            }
+
+            // Validates table schema
+<span class="nc bnc" id="L66" title="All 2 branches missed.">            if (tableSchema == null) {</span>
+<span class="nc" id="L67">                throw new NullAttributeException(&quot;schema&quot;);</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">            } else if (tableSchema.getTextContent().equals(&quot;&quot;)) {</span>
+<span class="nc" id="L69">                throw new InvalidAttributeException(&quot;schema&quot;, &quot;table&quot;);</span>
+            }
+
+<span class="nc" id="L72">            table.setName(tableName.getTextContent().trim());</span>
+<span class="nc" id="L73">            table.setSchema(tableSchema.getTextContent().trim());</span>
+
+<span class="nc" id="L75">            nl1 = getNodes(&quot;table/*&quot;, document);</span>
+
+<span class="nc" id="L77">            int createCount = 0;</span>
+<span class="nc" id="L78">            int alterCount = 0;</span>
+
+<span class="nc bnc" id="L80" title="All 2 branches missed.">            for (int j = 0; j &lt; nl1.getLength(); j++) {</span>
+//                System.out.println(&quot;j: &quot; + j);
+//                System.out.println(nl1.item(j).getNodeName());
+
+                /**************
+                 *DDL Commands*
+                 **************/
+
+                /* &lt;create&gt; */
+<span class="nc bnc" id="L89" title="All 4 branches missed.">                if (nl1.item(j).getNodeName().equals(&quot;create&quot;) &amp;&amp; createCount &lt; 1) {</span>
+<span class="nc" id="L90">                    createCount++;</span>
+
+<span class="nc" id="L92">                    List&lt;Column&gt; columns = new ArrayList&lt;Column&gt;();</span>
+<span class="nc" id="L93">                    nl2 = getNodes(&quot;table/create[1]/*&quot;, document);</span>
+
+<span class="nc bnc" id="L95" title="All 2 branches missed.">                    for (int k = 0; k &lt; nl2.getLength(); k++) {</span>
+//                        System.out.println(&quot;k: &quot; + k);
+<span class="nc" id="L97">                        Node node = nl2.item(k);</span>
+//                        System.out.println(attributes.getNamedItem(&quot;type&quot;));
+<span class="nc bnc" id="L99" title="All 2 branches missed.">                        if (node.getNodeName().equals(&quot;column&quot;)) {</span>
+<span class="nc" id="L100">                            NamedNodeMap attributes = node.getAttributes();</span>
+<span class="nc" id="L101">                            columns.add(CreateColumn(node, attributes));</span>
+                        };
+                    }
+
+<span class="nc" id="L105">                    table.setCreate(new Create(columns));</span>
+<span class="nc bnc" id="L106" title="All 4 branches missed.">                } else if (nl1.item(j).getNodeName().equals(&quot;create&quot;) &amp;&amp; createCount &gt;= 1) {</span>
+<span class="nc" id="L107">                    throw new MultipleTagsException(&quot;create&quot;);</span>
+                }
+
+                /* &lt;alter&gt; */
+<span class="nc bnc" id="L111" title="All 2 branches missed.">                if (nl1.item(j).getNodeName().equals(&quot;alter&quot;)) {</span>
+<span class="nc" id="L112">                    alterCount++;</span>
+
+<span class="nc" id="L114">                    int addCount = 0;</span>
+<span class="nc" id="L115">                    int dropColumnCount = 0;</span>
+<span class="nc" id="L116">                    int typeCount = 0;</span>
+<span class="nc" id="L117">                    int constraintCount = 0;</span>
+
+<span class="nc" id="L119">                    Alter alter = new Alter();</span>
+<span class="nc" id="L120">                    Add add = null;</span>
+<span class="nc" id="L121">                    List&lt;Column&gt; addColumns = new ArrayList&lt;Column&gt;();</span>
+<span class="nc" id="L122">                    DropColumn drop = null;</span>
+<span class="nc" id="L123">                    Type type = null;</span>
+<span class="nc" id="L124">                    Constraint constraint = null;</span>
+<span class="nc" id="L125">                    nl2 = getNodes(&quot;table/alter[&quot; + alterCount + &quot;]/*&quot;, document);</span>
+
+<span class="nc bnc" id="L127" title="All 2 branches missed.">                    for (int k = 0; k &lt; nl2.getLength(); k++) {</span>
+
+                        /* &lt;add&gt; */
+<span class="nc bnc" id="L130" title="All 4 branches missed.">                        if (nl2.item(k).getNodeName().equals(&quot;add&quot;) &amp;&amp; addCount &lt; 1) {</span>
+<span class="nc" id="L131">                            addCount++;</span>
+<span class="nc" id="L132">                            nl3 = getNodes(&quot;table/alter[&quot; + alterCount + &quot;]/add[1]/*&quot;, document);</span>
+
+<span class="nc bnc" id="L134" title="All 2 branches missed.">                            for (int l = 0; l &lt; nl3.getLength(); l++) {</span>
+//                        System.out.println(&quot;l: &quot; + l);
+<span class="nc" id="L136">                                Node node = nl3.item(l);</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">                                if (node.getNodeName().equals(&quot;column&quot;)) {</span>
+<span class="nc" id="L138">                                    NamedNodeMap attributes = node.getAttributes();</span>
+<span class="nc" id="L139">                                    addColumns.add(CreateColumn(node, attributes));</span>
+                                };
+                            }
+
+<span class="nc" id="L143">                            add = new Add(addColumns);</span>
+
+<span class="nc bnc" id="L145" title="All 4 branches missed.">                        } else if (nl2.item(k).getNodeName().equals(&quot;add&quot;) &amp;&amp; addCount &gt;= 1) {</span>
+<span class="nc" id="L146">                            throw new MultipleTagsException(&quot;add&quot;);</span>
+                        }
+
+                        /* &lt;drop&gt; */
+<span class="nc bnc" id="L150" title="All 4 branches missed.">                        if (nl2.item(k).getNodeName().equals(&quot;drop&quot;) &amp;&amp; dropColumnCount &lt; 1) {</span>
+<span class="nc" id="L151">                            dropColumnCount++;</span>
+
+                            String columnName;
+<span class="nc" id="L154">                            Node node = nl2.item(k);</span>
+<span class="nc" id="L155">                            NamedNodeMap attributes = node.getAttributes();</span>
+
+                            try {
+<span class="nc" id="L158">                                drop = new DropColumn(columnName = attributes.getNamedItem(&quot;column-name&quot;).getTextContent());</span>
+<span class="nc" id="L159">                            } catch (NullPointerException e) {</span>
+<span class="nc" id="L160">                                throw new NullAttributeException(&quot;column-name&quot;);</span>
+<span class="nc" id="L161">                            }</span>
+
+<span class="nc bnc" id="L163" title="All 2 branches missed.">                            if (columnName.equals(&quot;&quot;)) {</span>
+<span class="nc" id="L164">                                throw new InvalidAttributeException(&quot;column-name&quot;, &quot;drop&quot;);</span>
+                            }
+
+<span class="nc bnc" id="L167" title="All 4 branches missed.">                        } else if (nl2.item(k).getNodeName().equals(&quot;drop&quot;) &amp;&amp; dropColumnCount &gt;= 1) {</span>
+<span class="nc" id="L168">                            throw new MultipleTagsException(&quot;drop&quot;);</span>
+                        }
+
+                        /* &lt;type&gt; */
+<span class="nc bnc" id="L172" title="All 4 branches missed.">                        if (nl2.item(k).getNodeName().equals(&quot;type&quot;) &amp;&amp; typeCount &lt; 1) {</span>
+<span class="nc" id="L173">                            typeCount++;</span>
+
+                            String columnName;
+                            String typeString;
+<span class="nc" id="L177">                            Node node = nl2.item(k);</span>
+<span class="nc" id="L178">                            NamedNodeMap attributes = node.getAttributes();</span>
+
+                            try {
+<span class="nc" id="L181">                                columnName = (attributes.getNamedItem(&quot;column-name&quot;).getTextContent());</span>
+<span class="nc" id="L182">                            } catch (NullPointerException e) {</span>
+<span class="nc" id="L183">                                throw new NullAttributeException(&quot;column-name&quot;);</span>
+<span class="nc" id="L184">                            }</span>
+
+<span class="nc bnc" id="L186" title="All 2 branches missed.">                            if (columnName.equals(&quot;&quot;)) {</span>
+<span class="nc" id="L187">                                throw new InvalidAttributeException(&quot;column-name&quot;, &quot;type&quot;);</span>
+                            }
+
+                            try {
+<span class="nc" id="L191">                                typeString = (node.getTextContent().trim());</span>
+<span class="nc bnc" id="L192" title="All 2 branches missed.">                                if (!validColumnTypes.contains(typeString)) {</span>
+<span class="nc" id="L193">                                    throw new InvalidContentException();</span>
+                                }
+
+<span class="nc" id="L196">                            } catch (NullPointerException e) {</span>
+<span class="nc" id="L197">                                throw new NullContentException();</span>
+<span class="nc" id="L198">                            }</span>
+
+<span class="nc" id="L200">                            type = new Type(columnName, typeString);</span>
+
+<span class="nc bnc" id="L202" title="All 4 branches missed.">                        } else if (nl2.item(k).getNodeName().equals(&quot;type&quot;) &amp;&amp; typeCount &gt;= 1) {</span>
+<span class="nc" id="L203">                            throw new MultipleTagsException(&quot;type&quot;);</span>
+                        }
+
+                        /* &lt;constraint&gt; */
+<span class="nc bnc" id="L207" title="All 4 branches missed.">                        if (nl2.item(k).getNodeName().equals(&quot;constraint&quot;) &amp;&amp; constraintCount &lt; 1) {</span>
+<span class="nc" id="L208">                            constraintCount++;</span>
+
+                            String columnName;
+                            String constraintString;
+<span class="nc" id="L212">                            Node node = nl2.item(k);</span>
+<span class="nc" id="L213">                            NamedNodeMap attributes = node.getAttributes();</span>
+
+                            try {
+<span class="nc" id="L216">                                columnName = (attributes.getNamedItem(&quot;column-name&quot;).getTextContent());</span>
+<span class="nc" id="L217">                            } catch (NullPointerException e) {</span>
+<span class="nc" id="L218">                                throw new NullAttributeException(&quot;column-name&quot;);</span>
+<span class="nc" id="L219">                            }</span>
+
+<span class="nc bnc" id="L221" title="All 2 branches missed.">                            if (columnName.equals(&quot;&quot;)) {</span>
+<span class="nc" id="L222">                                throw new InvalidAttributeException(&quot;column-name&quot;, &quot;constraint&quot;);</span>
+                            }
+
+                            try {
+<span class="nc" id="L226">                                constraintString = (node.getTextContent().trim());</span>
+<span class="nc bnc" id="L227" title="All 2 branches missed.">                                if (!validConstraints.contains(constraintString)) {</span>
+<span class="nc" id="L228">                                    throw new InvalidContentException();</span>
+                                }
+
+<span class="nc" id="L231">                            } catch (NullPointerException e) {</span>
+<span class="nc" id="L232">                                throw new NullAttributeException(&quot;constraint&quot;);</span>
+<span class="nc" id="L233">                            }</span>
+
+<span class="nc" id="L235">                            constraint = new Constraint(constraintString);</span>
+
+<span class="nc bnc" id="L237" title="All 4 branches missed.">                        } else if (nl2.item(k).getNodeName().equals(&quot;constraint&quot;) &amp;&amp; constraintCount &gt;= 1) {</span>
+<span class="nc" id="L238">                            throw new MultipleTagsException(&quot;constraint&quot;);</span>
+                        }
+
+<span class="nc" id="L241">                        alter.setAdd(add);</span>
+<span class="nc" id="L242">                        alter.setDropColumn(drop);</span>
+<span class="nc" id="L243">                        alter.setType(type);</span>
+<span class="nc" id="L244">                        alter.setConstraint(constraint);</span>
+<span class="nc" id="L245">                        table.addAlter(alter);</span>
+
+                    }
+
+<span class="nc" id="L249">                    addCount = 0;</span>
+<span class="nc" id="L250">                    dropColumnCount = 0;</span>
+<span class="nc" id="L251">                    typeCount = 0;</span>
+<span class="nc" id="L252">                    constraintCount = 0;</span>
+                }
+
+                /* &lt;drop&gt; */
+<span class="nc bnc" id="L256" title="All 2 branches missed.">                if (nl1.item(j).getNodeName().equals(&quot;drop&quot;)) {</span>
+<span class="nc" id="L257">                    table.setDrop(new Drop());</span>
+                }
+
+
+                /**************
+                 *DML Commands*
+                 **************/
+
+
+                // TODO: DML
+                /* &lt;insert */
+<span class="nc bnc" id="L268" title="All 2 branches missed.">                if (nl1.item(j).getNodeName().equals(&quot;insert&quot;)) {</span>
+<span class="nc" id="L269">                    table.setInsert(null);</span>
+                }
+
+                /* export */
+<span class="nc bnc" id="L273" title="All 2 branches missed.">                if (nl1.item(j).getNodeName().equals(&quot;export&quot;)) {</span>
+<span class="nc" id="L274">                    table.setDrop(null);</span>
+                }
+
+                /* update */
+<span class="nc bnc" id="L278" title="All 2 branches missed.">                if (nl1.item(j).getNodeName().equals(&quot;update&quot;)) {</span>
+<span class="nc" id="L279">                    table.setDrop(null);</span>
+                }
+
+                /* delete */
+<span class="nc bnc" id="L283" title="All 2 branches missed.">                if (nl1.item(j).getNodeName().equals(&quot;delete&quot;)) {</span>
+<span class="nc" id="L284">                    table.setDrop(null);</span>
+                }
+
+            }
+
+        }
+
+<span class="nc" id="L291">        return table;</span>
+    }
+
+    public Column CreateColumn(Node node, NamedNodeMap attributes) throws NullAttributeException, NullContentException, NullTagException, InvalidAttributeException {
+<span class="nc bnc" id="L295" title="All 2 branches missed.">        if (node.getTextContent().equals(&quot;&quot;)) {</span>
+<span class="nc" id="L296">            throw new NullContentException();</span>
+        }
+
+<span class="nc bnc" id="L299" title="All 2 branches missed.">        if (!validColumnTypes.contains(attributes.getNamedItem(&quot;type&quot;).getTextContent())) {</span>
+<span class="nc" id="L300">            throw new InvalidAttributeException(&quot;type&quot;, &quot;column&quot;);</span>
+        }
+
+        try {
+<span class="nc" id="L304">            Column column = new Column(</span>
+<span class="nc" id="L305">                node.getTextContent().trim(),</span>
+<span class="nc" id="L306">                attributes.getNamedItem(&quot;type&quot;).getTextContent(),</span>
+<span class="nc bnc" id="L307" title="All 4 branches missed.">                attributes.getNamedItem(&quot;not-empty&quot;) != null &amp;&amp; attributes.getNamedItem(&quot;not-empty&quot;).getTextContent().equals(&quot;true&quot;),</span>
+<span class="nc bnc" id="L308" title="All 4 branches missed.">                attributes.getNamedItem(&quot;unique&quot;) != null &amp;&amp; attributes.getNamedItem(&quot;unique&quot;).getTextContent().equals(&quot;true&quot;),</span>
+<span class="nc bnc" id="L309" title="All 4 branches missed.">                attributes.getNamedItem(&quot;unique-id&quot;) != null &amp;&amp; attributes.getNamedItem(&quot;unique-id&quot;).getTextContent().equals(&quot;true&quot;)</span>
+            );
+
+<span class="nc" id="L312">            return column;</span>
+<span class="nc" id="L313">        } catch (NullPointerException e) {</span>
+<span class="nc" id="L314">            throw new NullTagException(&quot;type&quot;);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

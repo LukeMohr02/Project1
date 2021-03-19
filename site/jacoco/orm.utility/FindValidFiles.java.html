@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FindValidFiles.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project1</a> &gt; <a href="index.source.html" class="el_package">orm.utility</a> &gt; <span class="el_source">FindValidFiles.java</span></div><h1>FindValidFiles.java</h1><pre class="source lang-java linenums">package orm.utility;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.*;
+
+import javax.xml.parsers.*;
+import java.io.File;
+import java.io.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class FindValidFiles {
+    DocumentBuilder db;
+    Document[] validDocuments;
+    File directory;
+    File[] xmlFiles;
+
+<span class="nc" id="L22">    public FindValidFiles(String dir) {</span>
+<span class="nc" id="L23">        this.directory = new File(dir);</span>
+
+<span class="nc" id="L25">        xmlFiles = directory.listFiles(new FilenameFilter() {</span>
+            public boolean accept(File dir, String name) {
+<span class="nc" id="L27">                return name.endsWith(&quot;.xml&quot;);</span>
+            }
+        });
+
+        try {
+<span class="nc" id="L32">            db = DocumentBuilderFactory.newInstance().newDocumentBuilder();</span>
+<span class="nc" id="L33">        } catch (ParserConfigurationException e) {</span>
+<span class="nc" id="L34">            e.printStackTrace();</span>
+<span class="nc" id="L35">        }</span>
+
+<span class="nc" id="L37">        setValidDocuments(xmlFiles);</span>
+<span class="nc" id="L38">    }</span>
+
+    public Document[] getValidDocuments() {
+<span class="nc" id="L41">        return validDocuments;</span>
+    }
+
+    public void setValidDocuments(File[] xmlFiles) {
+<span class="nc" id="L45">        Document[] tempDocuments = new Document[xmlFiles.length];</span>
+
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        for (int i = 0; i &lt; xmlFiles.length; i++) {</span>
+            try {
+<span class="nc" id="L49">                Document doc = db.parse(xmlFiles[i]);</span>
+<span class="nc" id="L50">                tempDocuments[i] = doc;</span>
+<span class="nc" id="L51">            } catch (SAXException | IOException e) {</span>
+<span class="nc" id="L52">                e.printStackTrace();</span>
+<span class="nc" id="L53">            }</span>
+        }
+
+<span class="nc" id="L56">        validDocuments = tempDocuments;</span>
+<span class="nc" id="L57">    }</span>
+
+    // Searches input Documents for &lt;run&gt; tag, returns Documents in a list (in order of run priority)
+    public List&lt;Document&gt; findRunnableDocuments(Document[] inputDocuments) {
+<span class="nc" id="L61">        List&lt;Document&gt; documents = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L62">        List&lt;Integer&gt; runPriority = new ArrayList&lt;&gt;();</span>
+
+        // Searches documents for &lt;run&gt; tag and priority=&quot;&quot; attribute
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        for (Document d : inputDocuments) {</span>
+            try {
+<span class="nc" id="L67">                d.getElementsByTagName(&quot;run&quot;).item(0).getNodeName();</span>
+<span class="nc" id="L68">                documents.add(d);</span>
+
+                try {
+<span class="nc" id="L71">                    runPriority.add(Integer.parseInt(d.getElementsByTagName(&quot;run&quot;).item(0).getAttributes().getNamedItem(&quot;priority&quot;).getTextContent()));</span>
+<span class="nc" id="L72">                } catch (NullPointerException | NumberFormatException e) {</span>
+<span class="nc" id="L73">                    runPriority.add(0);</span>
+<span class="nc" id="L74">                }</span>
+
+<span class="nc" id="L76">            } catch (NullPointerException e) {</span>
+                // Exception is ignored
+<span class="nc" id="L78">            }</span>
+        }
+
+        // Sorts Document list by run priority
+        int tempInt;
+        Document tempDocument;
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        for (int i = 0; i &lt; runPriority.size(); i++) {</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">            for (int j = i + 1; j &lt; runPriority.size(); j++) {</span>
+
+<span class="nc bnc" id="L87" title="All 2 branches missed.">                if (runPriority.get(i) &lt; runPriority.get(j)) {</span>
+<span class="nc" id="L88">                    tempInt = runPriority.get(i);</span>
+<span class="nc" id="L89">                    runPriority.set(i, runPriority.get(j));</span>
+<span class="nc" id="L90">                    runPriority.set(j, tempInt);</span>
+
+<span class="nc" id="L92">                    tempDocument = documents.get(i);</span>
+<span class="nc" id="L93">                    documents.set(i, documents.get(j));</span>
+<span class="nc" id="L94">                    documents.set(j, tempDocument);</span>
+                }
+            }
+        }
+
+<span class="nc" id="L99">        return documents;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
