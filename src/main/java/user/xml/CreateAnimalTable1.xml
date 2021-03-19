@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<table schema="public" name="animal">
+    <run priority="1"/>
+
+    <create>
+        <column type="auto-int">
+            C1
+        </column>
+        <column type="int" not-empty="false" unique="false" unique-id="false">C2</column>
+    </create>
+
+    <alter>
+        <add>
+            <column type="int">AC1</column>
+        </add>
+        <drop column-name="1"/>
+        <type column-name="2">
+            auto-int
+        </type>
+        <constraint column-name="4">
+            unique-id
+        </constraint>
+    </alter>
+
+    <drop/>
+
+    <random>
+
+    </random>
+
+</table>
