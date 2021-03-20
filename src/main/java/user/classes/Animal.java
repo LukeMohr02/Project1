@@ -3,12 +3,14 @@ package user.classes;
 import javax.persistence.*;
 
 @Entity
-@Table
+@Table(name="animal")
 public class Animal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private int id;
+    @Column(name = "phylum")
     private String phylum;
 
     public Animal() {

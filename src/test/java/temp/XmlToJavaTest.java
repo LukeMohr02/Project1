@@ -4,8 +4,10 @@ import org.w3c.dom.Document;
 import orm.commands.*;
 import orm.exceptions.*;
 import orm.utility.FindValidFiles;
+import orm.utility.OrmPersistence;
 import orm.utility.XmlToJava;
 
+import javax.persistence.spi.PersistenceProvider;
 import javax.xml.xpath.XPathExpressionException;
 import java.util.List;
 import java.util.logging.Logger;
