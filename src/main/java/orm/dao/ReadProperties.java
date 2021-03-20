@@ -28,8 +28,6 @@ public class ReadProperties {
             String password = p.getProperty("Password");
             return new String[]{url, username, password};
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -24,7 +24,7 @@ public class XmlToJavaTest {
 
         for (Document d : runnableDocuments) {
             try {
-                table = xmlToJava.run(d);
+                table = xmlToJava.runDDL(d);
             } catch (XPathExpressionException | MultipleTagsException | NullAttributeException | InvalidAttributeException | NullTagException | NullContentException | InvalidContentException e) {
                 e.printStackTrace();
             }
@@ -55,7 +55,7 @@ public class XmlToJavaTest {
 
             if (table.getAlter().get(0).getAdd() != null) {
                 System.out.println("         columns: ");
-                List<Column> columns = table.getAlter().get(0).getAdd().getColumns();
+                Column[] columns = table.getAlter().get(0).getAdd().getColumns();
                 for (Column c : columns) {
                     System.out.println(c.getName() + ", " + c.getType() + ", " + c.isPrimaryKey());
                 }

@@ -13,10 +13,10 @@ public class Table {
     List<Alter> alter;
     Drop drop;
 
-    Insert insert;
-    Export export;
-    Update update;
-    Delete delete;
+    List<Insert> insert;
+    List<Export> export;
+    List<Update> update;
+    List<Delete> delete;
 
     public Table() {
         alter = new ArrayList<>();
@@ -64,36 +64,35 @@ public class Table {
     }
 
     /* DML */
-
-    public Insert getInsert() {
+    public List<Insert> getInsert() {
         return insert;
     }
 
-    public void setInsert(Insert insert) {
-        this.insert = insert;
+    public void addInsert(Insert insert) {
+        this.insert.add(insert);
     }
 
-    public Export getExport() {
+    public List<Export> getExport() {
         return export;
     }
 
-    public void setExport(Export export) {
-        this.export = export;
+    public void addExport(Export export) {
+        this.export.add(export);
     }
 
-    public Update getUpdate() {
+    public List<Update> getUpdate() {
         return update;
     }
 
-    public void setUpdate(Update update) {
-        this.update = update;
+    public void addUpdate(Update update) {
+        this.update.add(update);
     }
 
-    public Delete getDelete() {
+    public List<Delete> getDelete() {
         return delete;
     }
 
-    public void setDelete(Delete delete) {
-        this.delete = delete;
+    public void addDelete(Delete delete) {
+        this.delete.add(delete);
     }
 }

@@ -5,13 +5,13 @@ import orm.commands.Column;
 import java.util.List;
 
 public class Add {
-    List<Column> columns;
+    Column[] columns;
 
     public Add(List<Column> columns) {
-        this.columns = columns;
+        this.columns = (Column[]) columns.toArray();
     }
 
-    public List<Column> getColumns() {
+    public Column[] getColumns() {
         return columns;
     }
 

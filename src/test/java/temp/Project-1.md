@@ -54,6 +54,3 @@ USER STORIES:
 			- persist objects and retrieve them from the database
 				- track which object properties should be persisted
 		- NOT access the entire database (just what I specifically request)
-
-XML TAGS:
-	<

@@ -32,7 +32,7 @@ public class XmlToJava {
     }
 
     // TODO: make custom exceptions more descriptive
-    public Table run(Document document) throws XPathExpressionException, MultipleTagsException, NullAttributeException, InvalidAttributeException, NullTagException, NullContentException, InvalidContentException {
+    public Table runDDL(Document document) throws XPathExpressionException, MultipleTagsException, NullAttributeException, InvalidAttributeException, NullTagException, NullContentException, InvalidContentException {
 
         NodeList nl = document.getElementsByTagName("table");
         NodeList nl1;
@@ -155,13 +155,13 @@ public class XmlToJava {
                             NamedNodeMap attributes = node.getAttributes();
 
                             try {
-                                drop = new DropColumn(columnName = attributes.getNamedItem("column-name").getTextContent());
+                                drop = new DropColumn(columnName = attributes.getNamedItem("column").getTextContent());
                             } catch (NullPointerException e) {
-                                throw new NullAttributeException("column-name");
+                                throw new NullAttributeException("column");
                             }
 
                             if (columnName.equals("")) {
-                                throw new InvalidAttributeException("column-name", "drop");
+                                throw new InvalidAttributeException("column", "drop");
                             }
 
                         } else if (nl2.item(k).getNodeName().equals("drop") && dropColumnCount >= 1) {
@@ -178,13 +178,13 @@ public class XmlToJava {
                             NamedNodeMap attributes = node.getAttributes();
 
                             try {
-                                columnName = (attributes.getNamedItem("column-name").getTextContent());
+                                columnName = (attributes.getNamedItem("column").getTextContent());
                             } catch (NullPointerException e) {
-                                throw new NullAttributeException("column-name");
+                                throw new NullAttributeException("column");
                             }
 
                             if (columnName.equals("")) {
-                                throw new InvalidAttributeException("column-name", "type");
+                                throw new InvalidAttributeException("column", "type");
                             }
 
                             try {
@@ -213,13 +213,13 @@ public class XmlToJava {
                             NamedNodeMap attributes = node.getAttributes();
 
                             try {
-                                columnName = (attributes.getNamedItem("column-name").getTextContent());
+                                columnName = (attributes.getNamedItem("column").getTextContent());
                             } catch (NullPointerException e) {
-                                throw new NullAttributeException("column-name");
+                                throw new NullAttributeException("column");
                             }
 
                             if (columnName.equals("")) {
-                                throw new InvalidAttributeException("column-name", "constraint");
+                                throw new InvalidAttributeException("column", "constraint");
                             }
 
                             try {
@@ -257,31 +257,82 @@ public class XmlToJava {
                     table.setDrop(new Drop());
                 }
 
+            }
+
+        }
+
+        return table;
+    }
+
+    public Table runDML(Document document) throws XPathExpressionException, MultipleTagsException, NullAttributeException, InvalidAttributeException, NullTagException, NullContentException, InvalidContentException {
+        NodeList nl = document.getElementsByTagName("table");
+        NodeList nl1;
+        NodeList nl2;
+        NodeList nl3;
+
+        Table table = new Table();
+
+
+        // <table>
+        for (int i = 0; i < nl.getLength(); i++) {
+//            System.out.println("i: " + i);
+//            System.out.println(nl.item(i).getNodeName());
+
+            Node tableName = nl.item(0).getAttributes().getNamedItem("name");
+            Node tableSchema = nl.item(0).getAttributes().getNamedItem("schema");
+
+            // Validates table
+            if (nl.item(0) == null) {
+                throw new NullTagException("table");
+            }
+
+            // Validates table name
+            if (tableName == null) {
+                throw new NullAttributeException("name");
+            } else if (tableName.getTextContent().equals("")) {
+                throw new InvalidAttributeException("name", "table");
+            }
+
+            // Validates table schema
+            if (tableSchema == null) {
+                throw new NullAttributeException("schema");
+            } else if (tableSchema.getTextContent().equals("")) {
+                throw new InvalidAttributeException("schema", "table");
+            }
+
+            table.setName(tableName.getTextContent().trim());
+            table.setSchema(tableSchema.getTextContent().trim());
+
+            nl1 = getNodes("table/*", document);
+
+            int createCount = 0;
+            int alterCount = 0;
+
+            for (int j = 0; j < nl1.getLength(); j++) {
+//                System.out.println("j: " + j);
+//                System.out.println(nl1.item(j).getNodeName());
 
                 /**************
                  *DML Commands*
                  **************/
 
 
-                // TODO: DML
-                /* <insert */
+                /* <insert> */
                 if (nl1.item(j).getNodeName().equals("insert")) {
-                    table.setInsert(null);
-                }
+                    List<String> columns;
+                    Node node = nl1.item(j);
+                    NamedNodeMap attributes = node.getAttributes();
 
-                /* export */
-                if (nl1.item(j).getNodeName().equals("export")) {
-                    table.setDrop(null);
-                }
+                    try {
+                        Insert insert = new Insert(columnName = attributes.getNamedItem("column").getTextContent());
+                    } catch (NullPointerException e) {
+                        throw new NullAttributeException("column");
+                    }
 
-                /* update */
-                if (nl1.item(j).getNodeName().equals("update")) {
-                    table.setDrop(null);
-                }
+                    if (columnName.equals("")) {
+                        throw new InvalidAttributeException("column", "drop");
+                    }
 
-                /* delete */
-                if (nl1.item(j).getNodeName().equals("delete")) {
-                    table.setDrop(null);
                 }
 
             }

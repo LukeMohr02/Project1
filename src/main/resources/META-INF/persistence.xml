@@ -4,21 +4,18 @@
      xmlns="http://xmlns.jcp.org/xml/ns/persistence"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
-     http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+        http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
 
     <!--might need: transaction-type="RESOURCE_LOCAL"-->
     <persistence-unit name="Project1">
         <provider>org.datanucleus.api.jpa.PersistenceProviderImpl</provider>
 
-<!--        <class>user.classes.Animal</class>-->
-<!--        <exclude-unlisted-classes/>-->
-
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://animal.csf1elrfwgmr.us-west-1.rds.amazonaws.com:5432/animal"/>
             <property name="javax.persistence.jdbc.user" value="lukemohr"/>
             <property name="javax.persistence.jdbc.password" value="4815162342"/>
-            <property name="javax.persistence.jdbc.driver" value="orm.utility.Driver"/>
+            <property name="datanucleus.schema.autoCreateAll" value="true"/>
         </properties>
-        
+
     </persistence-unit>
 </persistence>
