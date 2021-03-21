@@ -6,35 +6,39 @@ import orm.commands.table.alter.*;
 import orm.commands.table.condition.*;
 import orm.exceptions.InvalidConstraintException;
 
+import java.util.List;
+import java.util.ArrayList;
+
 public class JavaToSql {
     String tableName;
 
-    public void findCommands(Table table) {
+    public String[] findCommands(Table table) {
         tableName = table.getName();
+        List<String> commands = new ArrayList<>();
 
         /* DDL */
-        // Drop command is run first
+        // Drop command runs first
         if (table.getDrop() != null) {
-            formulateDrop(table.getDrop());
+            commands.add(formulateDrop(table.getDrop()));
         }
 
         if (table.getCreate() != null) {
-            formulateCreate(table.getCreate());
+            commands.add(formulateCreate(table.getCreate()));
         }
 
         if (!table.getAlter().isEmpty()) {
             for (Alter a : table.getAlter()) {
                 if (a.getAdd() != null) {
-                    formulateAlterAdd(a.getAdd());
+                    commands.add(formulateAlterAdd(a.getAdd()));
                 }
                 if (a.getDropColumn() != null) {
-                    formulateAlterDropColumn(a.getDropColumn());
+                    commands.add(formulateAlterDropColumn(a.getDropColumn()));
                 }
                 if (a.getType() != null) {
-                    formulateAlterType(a.getType());
+                    commands.add(formulateAlterType(a.getType()));
                 }
                 if (a.getConstraint() != null) {
-                    formulateAlterConstraint(a.getConstraint());
+                    commands.add(formulateAlterConstraint(a.getConstraint()));
                 }
             }
         }
@@ -43,28 +47,30 @@ public class JavaToSql {
         /* DML */
         if (!table.getInsert().isEmpty()) {
             for (Insert i : table.getInsert()) {
-                formulateInsert(i);
-            }
-        }
-
-        if (!table.getExport().isEmpty()) {
-            for (Export e : table.getExport()) {
-                formulateExport(e);
+                commands.add(formulateInsert(i));
             }
         }
 
         if (!table.getUpdate().isEmpty()) {
             for (Update u : table.getUpdate()) {
-                formulateUpdate(u);
+                commands.add(formulateUpdate(u));
             }
         }
 
         if (!table.getDelete().isEmpty()) {
             for (Delete d : table.getDelete()) {
-                System.out.println(formulateDelete(d));
+                commands.add(formulateDelete(d));
             }
         }
 
+        // Export runs last
+        if (!table.getExport().isEmpty()) {
+            for (Export e : table.getExport()) {
+                commands.add(formulateExport(e));
+            }
+        }
+
+        return commands.toArray(new String[0]);
     }
 
 
@@ -127,7 +133,7 @@ public class JavaToSql {
     }
 
     public String formulateAlterType(Type type) {
-        return "alter table "+tableName+" alter column "+type.getColumnName()+" type "+type.getType();
+        return "alter table "+tableName+" alter column "+type.getColumnName()+" type "+type.getType()+";";
     }
 
     public String formulateAlterConstraint(Constraint constraint) {
@@ -152,7 +158,7 @@ public class JavaToSql {
     }
 
     public String formulateDrop(Drop drop) {
-        return "drop table "+tableName;
+        return "drop table "+tableName+";";
     }
 
 

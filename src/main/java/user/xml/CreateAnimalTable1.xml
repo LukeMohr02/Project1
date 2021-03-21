@@ -3,80 +3,80 @@
 <table schema="public" name="animal">
     <run priority="1"/>
 
-    <create>
-        <column unique="true" type="auto-int">
-            C1
-        </column>
-        <column type="int" not-empty="true" unique="true" unique-id="true">C2</column>
-        <column type="int" not-empty="false" unique="false" unique-id="false">C3</column>
-        <column type="int" not-empty="false" unique="true" unique-id="false">C4</column>
-        <column type="int" not-empty="true" unique="true" unique-id="false">C5</column>
-    </create>
+<!--    <create>-->
+<!--        <column unique="true" type="auto-int">-->
+<!--            C1-->
+<!--        </column>-->
+<!--        <column type="int" not-empty="true" unique="true" unique-id="true">C2</column>-->
+<!--        <column type="int" not-empty="false" unique="false" unique-id="false">C3</column>-->
+<!--        <column type="int" not-empty="false" unique="true" unique-id="false">C4</column>-->
+<!--        <column type="int" not-empty="true" unique="true" unique-id="false">C5</column>-->
+<!--    </create>-->
 
-    <alter>
-        <add>
-            <column type="int" unique-id="true">AC1</column>
-            <column type="text" not-empty="true" unique="true">AC2</column>
-            <column type="money" unique="true">AC3</column>
-        </add>
-        <drop column="AC1"/>
-        <type column="2">
-            auto-int
-        </type>
-        <constraint column="4">
-            not-empty
-        </constraint>
-    </alter>
+<!--    <alter>-->
+<!--        <add>-->
+<!--            <column type="int" unique-id="true">AC1</column>-->
+<!--            <column type="text" not-empty="true" unique="true">AC2</column>-->
+<!--            <column type="money" unique="true">AC3</column>-->
+<!--        </add>-->
+<!--        <drop column="AC1"/>-->
+<!--        <type column="2">-->
+<!--            auto-int-->
+<!--        </type>-->
+<!--        <constraint column="4">-->
+<!--            not-empty-->
+<!--        </constraint>-->
+<!--    </alter>-->
 
-    <drop/>
+<!--    <drop/>-->
 
-    <random>
+<!--    <random>-->
 
-    </random>
+<!--    </random>-->
 
 
 
-    <insert columns="1,2,3">
-        (A,B,C),(A1,B1,C1),                         (A2,B2,C2)
+    <insert columns="color,phylum">
+        ('purple','phylum')
     </insert>
 
-    <export columns="1,2">
-        <random/>
-        <condition column="I" operation="=">
-            target-column1
-        </condition>
-        <condition column="II" operation="=">
-            target-column2
-        </condition>
-        <condition column="III" operation="=">
-            target-column3
-        </condition>
-    </export>
+<!--    <export columns="1,2">-->
+<!--        <random/>-->
+<!--        <condition column="I" operation="=">-->
+<!--            target-column1-->
+<!--        </condition>-->
+<!--        <condition column="II" operation="=">-->
+<!--            target-column2-->
+<!--        </condition>-->
+<!--        <condition column="III" operation="=">-->
+<!--            target-column3-->
+<!--        </condition>-->
+<!--    </export>-->
 
-    <export/>
+<!--    <export/>-->
 
-    <update columns="1,2,3">
-        <values>
-            21,22,23
-        </values>
-        <condition column="initial" operation="less">
-            target
-        </condition>
-        <condition column="initial2" operation="less=">
-            target2
-        </condition>
-    </update>
+<!--    <update columns="1,2,3">-->
+<!--        <values>-->
+<!--            21,22,23-->
+<!--        </values>-->
+<!--        <condition column="initial" operation="less">-->
+<!--            target-->
+<!--        </condition>-->
+<!--        <condition column="initial2" operation="less=">-->
+<!--            target2-->
+<!--        </condition>-->
+<!--    </update>-->
 
-    <update columns="1,2,3">
-        <values>
-            21,22,23
-        </values>
+<!--    <update columns="1,2,3">-->
+<!--        <values>-->
+<!--            21,22,23-->
+<!--        </values>-->
 <!--        <condition column="initial" operation=">">-->
 <!--            target-->
 <!--        </condition>-->
-    </update>
+<!--    </update>-->
 
-    <delete>
+<!--    <delete>-->
 <!--        <condition column="asdf" operation=">">-->
 <!--            dasffsa-->
 <!--        </condition>-->
@@ -84,7 +84,7 @@
 <!--            dasffsa2-->
 <!--        </condition>-->
 
-    </delete>
+<!--    </delete>-->
 
 
 </table>

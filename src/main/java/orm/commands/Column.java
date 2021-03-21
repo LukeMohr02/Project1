@@ -13,6 +13,10 @@ public class Column {
         this.notEmpty = notEmpty;
         this.unique = unique;
         this.primaryKey = primaryKey;
+
+        if (type.equals("auto-int")) {
+            this.type = "serial";
+        }
     }
 
     public String getName() {

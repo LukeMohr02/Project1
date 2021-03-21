@@ -7,6 +7,7 @@ public class Constraint {
     public Constraint(String columnName, String constraint) {
         this.columnName = columnName;
         this.constraint = constraint;
+
     }
 
     public String getColumnName() {

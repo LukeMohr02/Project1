@@ -11,6 +11,7 @@ import javax.xml.xpath.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 public class XmlToJava {
 
@@ -68,7 +69,7 @@ public class XmlToJava {
                 throw new InvalidAttributeException("schema", "table");
             }
 
-            table.setName(tableName.getTextContent().trim());
+            table.setName(tableName.getTextContent().trim().toUpperCase());
             table.setSchema(tableSchema.getTextContent().trim());
 
             nl1 = getNodes("table/*", document);
@@ -294,7 +295,7 @@ public class XmlToJava {
                 throw new InvalidAttributeException("schema", "table");
             }
 
-            table.setName(tableName.getTextContent().trim());
+            table.setName(tableName.getTextContent().trim().toUpperCase());
             table.setSchema(tableSchema.getTextContent().trim());
 
             nl1 = getNodes("table/*", document);
@@ -429,7 +430,7 @@ public class XmlToJava {
         try {
 
             return new Column(
-                node.getTextContent().trim(),
+                node.getTextContent().trim().toUpperCase(),
                 attributes.getNamedItem("type").getTextContent(),
                 attributes.getNamedItem("not-empty") != null && attributes.getNamedItem("not-empty").getTextContent().equals("true"),
                 attributes.getNamedItem("unique") != null && attributes.getNamedItem("unique").getTextContent().equals("true"),
@@ -455,7 +456,7 @@ public class XmlToJava {
 
         try {
             return new Condition(
-                    attributes.getNamedItem("column").getTextContent(),
+                    attributes.getNamedItem("column").getTextContent().toUpperCase(),
                     attributes.getNamedItem("operation").getTextContent(),
                     node.getTextContent().trim()
             );

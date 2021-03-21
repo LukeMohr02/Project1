@@ -15,6 +15,7 @@
             <property name="javax.persistence.jdbc.user" value="lukemohr"/>
             <property name="javax.persistence.jdbc.password" value="4815162342"/>
             <property name="datanucleus.schema.autoCreateAll" value="true"/>
+            <property name="datanucleus.identifier.case" value="lowercase"/>
         </properties>
 
     </persistence-unit>
