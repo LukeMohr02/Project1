@@ -9,17 +9,25 @@ public class Insert {
     String[] columns;
     String[] values;
 
-    public Insert(List<String> columns, String values) throws ColumnMismatchException {
-        this.columns = (String[]) columns.toArray();
+    public Insert(String columns, String values) throws ColumnMismatchException {
+        this.columns = columns.replaceAll(" ", "").split(",");
         this.values = values.replaceAll(" ", "").split(",");
 
         if (this.values.length != this.columns.length) {
-            throw new ColumnMismatchException(columns, this.values);
+            throw new ColumnMismatchException(this.columns, this.values);
         }
     }
 
     public Insert(String values) {
         this.columns = new String[0];
         this.values = values.replaceAll(" ", "").split(",");
+    }
+
+    public String[] getColumns() {
+        return columns;
+    }
+
+    public String[] getValues() {
+        return values;
     }
 }

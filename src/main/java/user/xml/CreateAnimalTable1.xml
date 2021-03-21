@@ -14,11 +14,11 @@
         <add>
             <column type="int">AC1</column>
         </add>
-        <drop column-name="1"/>
-        <type column-name="2">
+        <drop column="1"/>
+        <type column="2">
             auto-int
         </type>
-        <constraint column-name="4">
+        <constraint column="4">
             unique-id
         </constraint>
     </alter>
@@ -28,5 +28,46 @@
     <random>
 
     </random>
+
+
+
+    <insert columns="1,2,3">
+        A,B,C
+    </insert>
+
+    <export columns="1,2">
+        <random/>
+        <condition column="" operation="=">
+            target-column
+        </condition>
+        <condition column="I" operation="=">
+            target-column
+        </condition>
+        <condition column="II" operation="=">
+            target-column
+        </condition>
+    </export>
+
+    <export/>
+
+    <update columns="1,2,3">
+        <values>
+            21,22,23
+        </values>
+        <condition column="initial" operation="less">
+            target
+        </condition>
+        <condition column="initial2" operation="less=">
+            target2
+        </condition>
+    </update>
+
+    <delete>
+        <condition column="" operation=">">
+            dasffsa
+        </condition>
+
+    </delete>
+
 
 </table>

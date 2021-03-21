@@ -4,6 +4,7 @@ import org.w3c.dom.*;
 import orm.commands.*;
 import orm.commands.table.*;
 import orm.commands.table.alter.*;
+import orm.commands.table.condition.Condition;
 import orm.exceptions.*;
 
 import javax.xml.xpath.*;
@@ -19,6 +20,7 @@ public class XmlToJava {
 
     List<String> validColumnTypes = new ArrayList<>(Arrays.asList("text", "int", "auto-int", "decimal", "money", "bool"));
     List<String> validConstraints = new ArrayList<>(Arrays.asList("not-empty", "unique", "unique-id"));
+    List<String> validOperators = new ArrayList<>(Arrays.asList("=","!=",">","less",">=","less="));
 
     public XmlToJava() {
         xPathFactory = XPathFactory.newInstance();
@@ -44,9 +46,6 @@ public class XmlToJava {
 
         // <table>
         for (int i = 0; i < nl.getLength(); i++) {
-//            System.out.println("i: " + i);
-//            System.out.println(nl.item(i).getNodeName());
-
             Node tableName = nl.item(0).getAttributes().getNamedItem("name");
             Node tableSchema = nl.item(0).getAttributes().getNamedItem("schema");
 
@@ -78,28 +77,26 @@ public class XmlToJava {
             int alterCount = 0;
 
             for (int j = 0; j < nl1.getLength(); j++) {
-//                System.out.println("j: " + j);
-//                System.out.println(nl1.item(j).getNodeName());
+
 
                 /**************
                  *DDL Commands*
                  **************/
 
+
                 /* <create> */
                 if (nl1.item(j).getNodeName().equals("create") && createCount < 1) {
                     createCount++;
 
-                    List<Column> columns = new ArrayList<Column>();
+                    List<Column> columns = new ArrayList<>();
                     nl2 = getNodes("table/create[1]/*", document);
 
                     for (int k = 0; k < nl2.getLength(); k++) {
-//                        System.out.println("k: " + k);
                         Node node = nl2.item(k);
-//                        System.out.println(attributes.getNamedItem("type"));
                         if (node.getNodeName().equals("column")) {
                             NamedNodeMap attributes = node.getAttributes();
                             columns.add(CreateColumn(node, attributes));
-                        };
+                        }
                     }
 
                     table.setCreate(new Create(columns));
@@ -118,7 +115,7 @@ public class XmlToJava {
 
                     Alter alter = new Alter();
                     Add add = null;
-                    List<Column> addColumns = new ArrayList<Column>();
+                    List<Column> addColumns = new ArrayList<>();
                     DropColumn drop = null;
                     Type type = null;
                     Constraint constraint = null;
@@ -132,12 +129,11 @@ public class XmlToJava {
                             nl3 = getNodes("table/alter[" + alterCount + "]/add[1]/*", document);
 
                             for (int l = 0; l < nl3.getLength(); l++) {
-//                        System.out.println("l: " + l);
                                 Node node = nl3.item(l);
                                 if (node.getNodeName().equals("column")) {
                                     NamedNodeMap attributes = node.getAttributes();
                                     addColumns.add(CreateColumn(node, attributes));
-                                };
+                                }
                             }
 
                             add = new Add(addColumns);
@@ -264,19 +260,16 @@ public class XmlToJava {
         return table;
     }
 
-    public Table runDML(Document document) throws XPathExpressionException, MultipleTagsException, NullAttributeException, InvalidAttributeException, NullTagException, NullContentException, InvalidContentException {
+    public Table runDML(Document document) throws XPathExpressionException, MultipleTagsException, NullAttributeException, InvalidAttributeException, NullTagException, NullContentException, InvalidContentException, ColumnMismatchException {
         NodeList nl = document.getElementsByTagName("table");
         NodeList nl1;
         NodeList nl2;
-        NodeList nl3;
 
         Table table = new Table();
 
 
         // <table>
         for (int i = 0; i < nl.getLength(); i++) {
-//            System.out.println("i: " + i);
-//            System.out.println(nl.item(i).getNodeName());
 
             Node tableName = nl.item(0).getAttributes().getNamedItem("name");
             Node tableSchema = nl.item(0).getAttributes().getNamedItem("schema");
@@ -305,12 +298,12 @@ public class XmlToJava {
 
             nl1 = getNodes("table/*", document);
 
-            int createCount = 0;
-            int alterCount = 0;
+            int exportCount = 0;
+            int updateCount = 0;
+            int deleteCount = 0;
 
             for (int j = 0; j < nl1.getLength(); j++) {
-//                System.out.println("j: " + j);
-//                System.out.println(nl1.item(j).getNodeName());
+
 
                 /**************
                  *DML Commands*
@@ -319,23 +312,100 @@ public class XmlToJava {
 
                 /* <insert> */
                 if (nl1.item(j).getNodeName().equals("insert")) {
-                    List<String> columns;
+                    String columns;
+                    String values;
+                    Node node = nl1.item(j);
+                    NamedNodeMap attributes = node.getAttributes();
+
+                    columns = attributes.getNamedItem("columns").getTextContent();
+                    values = node.getTextContent().trim();
+
+                    table.addInsert(new Insert(columns, values));
+                }
+
+                /* <export> */
+                if (nl1.item(j).getNodeName().equals("export")) {
+                    exportCount++;
+                    String columns = "";
+                    List<Condition> conditions = new ArrayList<>();
                     Node node = nl1.item(j);
                     NamedNodeMap attributes = node.getAttributes();
 
                     try {
-                        Insert insert = new Insert(columnName = attributes.getNamedItem("column").getTextContent());
+                        columns = attributes.getNamedItem("columns").getTextContent();
                     } catch (NullPointerException e) {
-                        throw new NullAttributeException("column");
+                        // columns attribute is optional
                     }
 
-                    if (columnName.equals("")) {
-                        throw new InvalidAttributeException("column", "drop");
+                    nl2 = getNodes("table/export[" + exportCount + "]/*", document);
+
+                    for (int k = 0; k < nl2.getLength(); k++) {
+                        Node node1 = nl2.item(k);
+                        if (node1.getNodeName().equals("condition")) {
+                            conditions.add(CreateCondition(node1, node1.getAttributes()));
+                        }
                     }
 
+                    table.addExport(new Export(columns, conditions));
+                }
+
+                /* <update> */
+                if (nl1.item(j).getNodeName().equals("update")) {
+                    updateCount++;
+                    String columns;
+                    String values = "";
+                    List<Condition> conditions = new ArrayList<>();
+                    Node node = nl1.item(j);
+                    NamedNodeMap attributes = node.getAttributes();
+
+                    try {
+                        columns = attributes.getNamedItem("columns").getTextContent();
+                    } catch (NullPointerException e) {
+                        throw new NullAttributeException("columns");
+                    }
+
+                    nl2 = getNodes("table/update[" + updateCount + "]/*", document);
+
+                    for (int k = 0; k < nl2.getLength(); k++) {
+                        Node node1 = nl2.item(k);
+
+                        if (node1.getNodeName().equals("values")) {
+                            values = node1.getTextContent().trim();
+                        }
+
+                        if (node1.getNodeName().equals("condition")) {
+                            conditions.add(CreateCondition(node1, node1.getAttributes()));
+                        }
+
+                    }
+
+                    table.addUpdate(new Update(columns, values, conditions));
+                }
+
+                /* <delete> */
+                if (nl1.item(j).getNodeName().equals("delete")) {
+                    deleteCount++;
+                    List<Condition> conditions = new ArrayList<>();
+
+                    nl2 = getNodes("table/delete[" + deleteCount + "]/*", document);
+
+                    for (int k = 0; k < nl2.getLength(); k++) {
+                        Node node1 = nl2.item(k);
+
+                        if (node1.getNodeName().equals("condition")) {
+                            conditions.add(CreateCondition(node1, node1.getAttributes()));
+                        }
+
+                    }
+
+                    table.addDelete(new Delete(conditions));
                 }
 
             }
+
+            exportCount = 0;
+            updateCount = 0;
+            deleteCount = 0;
 
         }
 
@@ -343,26 +413,53 @@ public class XmlToJava {
     }
 
     public Column CreateColumn(Node node, NamedNodeMap attributes) throws NullAttributeException, NullContentException, NullTagException, InvalidAttributeException {
-        if (node.getTextContent().equals("")) {
+        if (node.getTextContent().trim().equals("")) {
             throw new NullContentException();
         }
 
-        if (!validColumnTypes.contains(attributes.getNamedItem("type").getTextContent())) {
-            throw new InvalidAttributeException("type", "column");
+        try {
+            if (!validColumnTypes.contains(attributes.getNamedItem("type").getTextContent())) {
+                throw new InvalidAttributeException("type", "column");
+            }
+        } catch (NullPointerException e) {
+            throw new NullAttributeException("type");
         }
 
         try {
-            Column column = new Column(
+
+            return new Column(
                 node.getTextContent().trim(),
                 attributes.getNamedItem("type").getTextContent(),
                 attributes.getNamedItem("not-empty") != null && attributes.getNamedItem("not-empty").getTextContent().equals("true"),
                 attributes.getNamedItem("unique") != null && attributes.getNamedItem("unique").getTextContent().equals("true"),
                 attributes.getNamedItem("unique-id") != null && attributes.getNamedItem("unique-id").getTextContent().equals("true")
             );
-
-            return column;
         } catch (NullPointerException e) {
             throw new NullTagException("type");
+        }
+    }
+
+    public Condition CreateCondition(Node node, NamedNodeMap attributes) throws NullContentException, InvalidAttributeException, NullAttributeException {
+        if (node.getTextContent().trim().equals("")) {
+            throw new NullContentException();
+        }
+
+        try {
+            if (!validOperators.contains(attributes.getNamedItem("operation").getTextContent())) {
+                throw new InvalidAttributeException("operation", "condition");
+            }
+        } catch (NullPointerException e) {
+            throw new NullAttributeException("operation");
+        }
+
+        try {
+            return new Condition(
+                    attributes.getNamedItem("column").getTextContent(),
+                    attributes.getNamedItem("operation").getTextContent(),
+                    node.getTextContent().trim()
+            );
+        } catch (NullPointerException e) {
+            throw new NullAttributeException("column");
         }
     }
 }

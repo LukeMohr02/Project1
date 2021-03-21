@@ -20,6 +20,10 @@ public class Table {
 
     public Table() {
         alter = new ArrayList<>();
+        insert = new ArrayList<>();
+        export = new ArrayList<>();
+        update = new ArrayList<>();
+        delete = new ArrayList<>();
     }
 
     public String getSchema() {

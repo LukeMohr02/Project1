@@ -8,6 +8,10 @@ public class Delete {
     Condition[] conditions;
 
     public Delete(List<Condition> conditions) {
-        this.conditions = (Condition[]) conditions.toArray();
+        this.conditions = conditions.toArray(new Condition[0]);
+    }
+
+    public Condition[] getConditions() {
+        return conditions;
     }
 }

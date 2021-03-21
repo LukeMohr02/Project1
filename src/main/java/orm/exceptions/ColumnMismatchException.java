@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ColumnMismatchException extends Exception {
 
-    public ColumnMismatchException(List<String> columns, String[] values) {
-        super("Columns and values must match respective type and order (columns: "+Arrays.toString(columns.toArray()) +", values:"+Arrays.toString(values)+")");
+    public ColumnMismatchException(String[] columns, String[] values) {
+        super("Columns and values must match respective number, type, and order (columns: "+Arrays.toString(columns) +", values:"+Arrays.toString(values)+")");
     }
 }

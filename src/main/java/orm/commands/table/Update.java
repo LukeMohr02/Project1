@@ -11,13 +11,25 @@ public class Update {
     String[] values;
     Condition[] conditions;
 
-    public Update(List<String> columns, String values, List<Condition> conditions) throws ColumnMismatchException {
-        this.columns = (String[]) columns.toArray();
+    public Update(String columns, String values, List<Condition> conditions) throws ColumnMismatchException {
+        this.columns = columns.replaceAll(" ", "").split(",");
         this.values = values.replaceAll(" ", "").split(",");
-        this.conditions = (Condition[]) conditions.toArray();
+        this.conditions = conditions.toArray(new Condition[0]);
 
         if (this.values.length != this.columns.length) {
-            throw new ColumnMismatchException(columns, this.values);
+            throw new ColumnMismatchException(this.columns, this.values);
         }
+    }
+
+    public String[] getColumns() {
+        return columns;
+    }
+
+    public String[] getValues() {
+        return values;
+    }
+
+    public Condition[] getConditions() {
+        return conditions;
     }
 }

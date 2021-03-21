@@ -1,16 +1,23 @@
 package orm.commands.table;
 
-import orm.commands.Column;
 import orm.commands.table.condition.Condition;
 
 import java.util.List;
 
 public class Export {
     String[] columns;
-    String[] conditions;
+    Condition[] conditions;
 
-    public Export(List<Column> columns, List<Condition> conditions) {
-        this.columns = (String[]) columns.toArray();
-        this.conditions = (String[]) conditions.toArray();
+    public Export(String columns, List<Condition> conditions) {
+        this.columns = columns.replaceAll(" ", "").split(",");
+        this.conditions = conditions.toArray(new Condition[0]);
+    }
+
+    public String[] getColumns() {
+        return columns;
+    }
+
+    public Condition[] getConditions() {
+        return conditions;
     }
 }

@@ -50,7 +50,7 @@ Valid tags
             [existing column names separated by commas]
         <condition> - optional - can be multiple
             (column)
-            (operation) - comparison
+            (operation) - comparison operator
                 ["="]
                 ["!="]
                 [">"]
@@ -64,26 +64,10 @@ Valid tags
         <values>
             {values separated by commas, same order as columns}
         <condition> - optional - can be multiple
-            (column)
-            (operation) - comparison
-                ["="]
-                ["!="]
-                [">"]
-                ["<"]
-                [">="]
-                ["<="]
-            {target column}
+            (SEE <export>.<condition>)
     <delete> - removes data from table
         <condition> - optional - can be multiple
-            (column)
-            (operation) - comparison
-                ["="]
-                ["!="]
-                [">"]
-                ["<"]
-                [">="]
-                ["<="]
-            {target column}
+            (SEE <export>.<condition>)
 
 
 
