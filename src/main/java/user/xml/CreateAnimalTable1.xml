@@ -3,45 +3,50 @@
 <table schema="public" name="animal">
     <run priority="1"/>
 
-<!--    <create>-->
-<!--        <column unique="true" type="auto-int">-->
-<!--            C1-->
-<!--        </column>-->
-<!--        <column type="int" not-empty="true" unique="true" unique-id="true">C2</column>-->
-<!--        <column type="int" not-empty="false" unique="false" unique-id="false">C3</column>-->
-<!--        <column type="int" not-empty="false" unique="true" unique-id="false">C4</column>-->
-<!--        <column type="int" not-empty="true" unique="true" unique-id="false">C5</column>-->
-<!--    </create>-->
+    <drop/>
 
-<!--    <alter>-->
-<!--        <add>-->
-<!--            <column type="int" unique-id="true">AC1</column>-->
-<!--            <column type="text" not-empty="true" unique="true">AC2</column>-->
-<!--            <column type="money" unique="true">AC3</column>-->
-<!--        </add>-->
-<!--        <drop column="AC1"/>-->
-<!--        <type column="2">-->
-<!--            auto-int-->
-<!--        </type>-->
-<!--        <constraint column="4">-->
-<!--            not-empty-->
-<!--        </constraint>-->
-<!--    </alter>-->
+    <create>
+        <column unique-id="true" type="auto-int">
+            id
+        </column>
 
-<!--    <drop/>-->
+        <column type="text" not-empty="true">
+            type
+        </column>
 
-<!--    <random>-->
+        <column type="int">
+            age
+        </column>
 
-<!--    </random>-->
+        <column type="money">
+            sellPrice
+        </column>
+    </create>
 
+    <alter>
+        <add>
+            <column type="text">
+                favoriteColor
+            </column>
+        </add>
+        <drop column="sellPrice"/>
+        <type column="age">
+            int
+        </type>
+        <constraint column="age">
+            not-empty
+        </constraint>
+    </alter>
 
+    <random/>
 
-    <insert columns="color,phylum">
-        ('purple','phylum')
+    <insert columns="type,age,favoriteColor">
+        ('bear',6,'brown'),
+        ('bird',2,'purple'),
+        ('snake',3,'green')
     </insert>
 
-<!--    <export columns="1,2">-->
-<!--        <random/>-->
+<!--    <export>-->
 <!--        <condition column="I" operation="=">-->
 <!--            target-column1-->
 <!--        </condition>-->
@@ -53,38 +58,31 @@
 <!--        </condition>-->
 <!--    </export>-->
 
-<!--    <export/>-->
+    <export/>
 
-<!--    <update columns="1,2,3">-->
-<!--        <values>-->
-<!--            21,22,23-->
-<!--        </values>-->
-<!--        <condition column="initial" operation="less">-->
-<!--            target-->
-<!--        </condition>-->
-<!--        <condition column="initial2" operation="less=">-->
-<!--            target2-->
-<!--        </condition>-->
-<!--    </update>-->
+    <update columns="age,favoriteColor">
+        <values>
+            4,'blurple'
+        </values>
 
-<!--    <update columns="1,2,3">-->
-<!--        <values>-->
-<!--            21,22,23-->
-<!--        </values>-->
-<!--        <condition column="initial" operation=">">-->
-<!--            target-->
-<!--        </condition>-->
-<!--    </update>-->
+        <condition column="age" operation="=">
+            2
+        </condition>
 
-<!--    <delete>-->
-<!--        <condition column="asdf" operation=">">-->
-<!--            dasffsa-->
-<!--        </condition>-->
-<!--        <condition column="asdf2" operation="less">-->
-<!--            dasffsa2-->
-<!--        </condition>-->
+        <condition column="favoriteColor" operation="=">
+            'purple'
+        </condition>
+    </update>
 
-<!--    </delete>-->
+    <insert columns="type,age,favoriteColor">
+        ('fake animal',10000,'pink')
+    </insert>
+
+    <delete>
+        <condition column="type" operation="=">
+            'fakeanimal'
+        </condition>
+    </delete>
 
 
 </table>

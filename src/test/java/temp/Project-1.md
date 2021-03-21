@@ -39,7 +39,7 @@ OTHER:
 	- March 26
 	- User should interface with xml
 	- Utilize any libraries (including collections)
-	- Jacksone library is helpful for xml
+	- Jackson library is helpful for xml
 	- Developer should have all the power of SQL (serial ID, primary key, column names, etc.) but actual SQL implementation is abstracted
 	- NOTE: this project does not require a database (it is only a framework), but use a database for testing
 	- Requirements are intentionally vague, we should provide our own user stories

@@ -14,7 +14,7 @@ public class SqlStatementExecutor {
     }
 
     public void execute(String statement) throws SQLException {
-//        System.out.println(statement);
+        System.out.println(statement);
 
         if (statement.contains("select")) {
 

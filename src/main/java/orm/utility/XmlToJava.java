@@ -35,7 +35,7 @@ public class XmlToJava {
     }
 
     // TODO: make custom exceptions more descriptive
-    public Table runDDL(Document document) throws XPathExpressionException, MultipleTagsException, NullAttributeException, InvalidAttributeException, NullTagException, NullContentException, InvalidContentException {
+    public Table runDDL(Document document) throws XPathExpressionException, MultipleTagsException, NullAttributeException, InvalidAttributeException, NullTagException, NullContentException, InvalidContentException, InvalidTypeException {
 
         NodeList nl = document.getElementsByTagName("table");
         NodeList nl1;
@@ -69,7 +69,7 @@ public class XmlToJava {
                 throw new InvalidAttributeException("schema", "table");
             }
 
-            table.setName(tableName.getTextContent().trim().toUpperCase());
+            table.setName(tableName.getTextContent().trim());
             table.setSchema(tableSchema.getTextContent().trim());
 
             nl1 = getNodes("table/*", document);
@@ -295,7 +295,7 @@ public class XmlToJava {
                 throw new InvalidAttributeException("schema", "table");
             }
 
-            table.setName(tableName.getTextContent().trim().toUpperCase());
+            table.setName(tableName.getTextContent().trim());
             table.setSchema(tableSchema.getTextContent().trim());
 
             nl1 = getNodes("table/*", document);
@@ -430,7 +430,7 @@ public class XmlToJava {
         try {
 
             return new Column(
-                node.getTextContent().trim().toUpperCase(),
+                node.getTextContent().trim(),
                 attributes.getNamedItem("type").getTextContent(),
                 attributes.getNamedItem("not-empty") != null && attributes.getNamedItem("not-empty").getTextContent().equals("true"),
                 attributes.getNamedItem("unique") != null && attributes.getNamedItem("unique").getTextContent().equals("true"),
@@ -456,7 +456,7 @@ public class XmlToJava {
 
         try {
             return new Condition(
-                    attributes.getNamedItem("column").getTextContent().toUpperCase(),
+                    attributes.getNamedItem("column").getTextContent(),
                     attributes.getNamedItem("operation").getTextContent(),
                     node.getTextContent().trim()
             );

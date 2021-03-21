@@ -1,5 +1,6 @@
 package orm.utility;
 
+import org.apache.log4j.PropertyConfigurator;
 import org.w3c.dom.Document;
 import orm.commands.Table;
 import orm.dao.SqlStatementExecutor;
@@ -13,10 +14,11 @@ import java.util.logging.Logger;
 
 public class Driver {
     public static void main(String[] args) {
-        Logger logger = Logger.getLogger("Log file");
         XmlToJava xmlToJava = new XmlToJava();
         JavaToSql javaToSql = new JavaToSql();
         SqlStatementExecutor executor = new SqlStatementExecutor();
+        Logger logger = Logger.getLogger("Log file");
+        PropertyConfigurator.configure("C:\\Users\\Luke\\Desktop\\Computer Science\\gitrepos\\Project1\\src\\main\\resources\\log4j.properties");
 
         FindValidFiles fvf = new FindValidFiles("src/main/java/user/xml");
         List<Document> runnableDocuments = fvf.findRunnableDocuments(fvf.getValidDocuments());
@@ -28,7 +30,7 @@ public class Driver {
             try {
                 tableDDL = xmlToJava.runDDL(d);
                 tableDML = xmlToJava.runDML(d);
-            } catch (XPathExpressionException | MultipleTagsException | NullAttributeException | InvalidAttributeException | NullTagException | NullContentException | InvalidContentException | ColumnMismatchException e) {
+            } catch (XPathExpressionException | MultipleTagsException | NullAttributeException | InvalidAttributeException | NullTagException | NullContentException | InvalidContentException | ColumnMismatchException | InvalidTypeException e) {
                 e.printStackTrace();
             }
 
@@ -41,8 +43,8 @@ public class Driver {
         try {
             executor.execute(DDLCommands);
             executor.execute(DMLCommands);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
     }

@@ -1,9 +1,9 @@
 package orm.dao;
 
+
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-import java.net.SocketTimeoutException;
 import java.sql.Connection;
 import java.sql.SQLException;
 

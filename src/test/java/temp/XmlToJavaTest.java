@@ -27,7 +27,7 @@ public class XmlToJavaTest {
             try {
                 tableDDL = xmlToJava.runDDL(d);
                 tableDML = xmlToJava.runDML(d);
-            } catch (XPathExpressionException | MultipleTagsException | NullAttributeException | InvalidAttributeException | NullTagException | NullContentException | InvalidContentException | ColumnMismatchException e) {
+            } catch (XPathExpressionException | MultipleTagsException | NullAttributeException | InvalidAttributeException | NullTagException | NullContentException | InvalidContentException | ColumnMismatchException | InvalidTypeException e) {
                 e.printStackTrace();
             }
 
