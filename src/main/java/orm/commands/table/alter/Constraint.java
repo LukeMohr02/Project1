@@ -1,13 +1,19 @@
 package orm.commands.table.alter;
 
 public class Constraint {
-    String name;
+    String columnName;
+    String constraint;
 
-    public Constraint(String name) {
-        this.name = name;
+    public Constraint(String columnName, String constraint) {
+        this.columnName = columnName;
+        this.constraint = constraint;
     }
 
-    public String getName() {
-        return name;
+    public String getColumnName() {
+        return columnName;
+    }
+
+    public String getConstraint() {
+        return constraint;
     }
 }

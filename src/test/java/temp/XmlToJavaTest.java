@@ -75,7 +75,7 @@ public class XmlToJavaTest {
             System.out.println("      <constraint> exists: " + (tableDDL.getAlter().get(0).getConstraint() != null));
 
             if (tableDDL.getAlter().get(0).getConstraint() != null) {
-                System.out.println("         constraint: " + tableDDL.getAlter().get(0).getConstraint().getName());
+                System.out.println("         constraint: " + tableDDL.getAlter().get(0).getConstraint().getConstraint());
             }
         }
 

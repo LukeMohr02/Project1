@@ -44,7 +44,7 @@ Valid tags
     <insert> - inserts data into table
         (columns) - optional, will select all if omitted
             [existing column names separated by commas]
-        {values separated by commas, same order as columns}
+        {values separated by commas, same order as columns, each column's values should be in parentheses ()}
     <export> - exports data from table
         (columns) - optional, will select all if omitted
             [existing column names separated by commas]

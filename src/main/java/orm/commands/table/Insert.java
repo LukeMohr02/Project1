@@ -13,9 +13,11 @@ public class Insert {
         this.columns = columns.replaceAll(" ", "").split(",");
         this.values = values.replaceAll(" ", "").split(",");
 
-        if (this.values.length != this.columns.length) {
-            throw new ColumnMismatchException(this.columns, this.values);
-        }
+        // TODO: this exception should be thrown whether or not there are parentheses () in values
+//        System.out.println(this.values);
+//        if (this.values.length != this.columns.length) {
+//            throw new ColumnMismatchException(this.columns, this.values);
+//        }
     }
 
     public Insert(String values) {

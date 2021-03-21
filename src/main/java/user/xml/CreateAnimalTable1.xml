@@ -4,22 +4,27 @@
     <run priority="1"/>
 
     <create>
-        <column type="auto-int">
+        <column unique="true" type="auto-int">
             C1
         </column>
-        <column type="int" not-empty="false" unique="false" unique-id="false">C2</column>
+        <column type="int" not-empty="true" unique="true" unique-id="true">C2</column>
+        <column type="int" not-empty="false" unique="false" unique-id="false">C3</column>
+        <column type="int" not-empty="false" unique="true" unique-id="false">C4</column>
+        <column type="int" not-empty="true" unique="true" unique-id="false">C5</column>
     </create>
 
     <alter>
         <add>
-            <column type="int">AC1</column>
+            <column type="int" unique-id="true">AC1</column>
+            <column type="text" not-empty="true" unique="true">AC2</column>
+            <column type="money" unique="true">AC3</column>
         </add>
-        <drop column="1"/>
+        <drop column="AC1"/>
         <type column="2">
             auto-int
         </type>
         <constraint column="4">
-            unique-id
+            not-empty
         </constraint>
     </alter>
 
@@ -32,19 +37,19 @@
 
 
     <insert columns="1,2,3">
-        A,B,C
+        (A,B,C),(A1,B1,C1),                         (A2,B2,C2)
     </insert>
 
     <export columns="1,2">
         <random/>
-        <condition column="" operation="=">
-            target-column
-        </condition>
         <condition column="I" operation="=">
-            target-column
+            target-column1
         </condition>
         <condition column="II" operation="=">
-            target-column
+            target-column2
+        </condition>
+        <condition column="III" operation="=">
+            target-column3
         </condition>
     </export>
 
@@ -62,10 +67,22 @@
         </condition>
     </update>
 
+    <update columns="1,2,3">
+        <values>
+            21,22,23
+        </values>
+<!--        <condition column="initial" operation=">">-->
+<!--            target-->
+<!--        </condition>-->
+    </update>
+
     <delete>
-        <condition column="" operation=">">
-            dasffsa
-        </condition>
+<!--        <condition column="asdf" operation=">">-->
+<!--            dasffsa-->
+<!--        </condition>-->
+<!--        <condition column="asdf2" operation="less">-->
+<!--            dasffsa2-->
+<!--        </condition>-->
 
     </delete>
 

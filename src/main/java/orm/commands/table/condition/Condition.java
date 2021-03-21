@@ -9,6 +9,12 @@ public class Condition {
         this.column = column;
         this.operator = operator;
         this.targetColumn = targetColumn;
+
+        if (operator.equals("less")) {
+            this.operator = "<";
+        } else if (operator.equals("less=")) {
+            this.operator = "<=";
+        }
     }
 
     public String getColumn() {

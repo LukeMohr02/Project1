@@ -228,7 +228,7 @@ public class XmlToJava {
                                 throw new NullAttributeException("constraint");
                             }
 
-                            constraint = new Constraint(constraintString);
+                            constraint = new Constraint(columnName, constraintString);
 
                         } else if (nl2.item(k).getNodeName().equals("constraint") && constraintCount >= 1) {
                             throw new MultipleTagsException("constraint");
@@ -238,9 +238,10 @@ public class XmlToJava {
                         alter.setDropColumn(drop);
                         alter.setType(type);
                         alter.setConstraint(constraint);
-                        table.addAlter(alter);
 
                     }
+
+                    table.addAlter(alter);
 
                     addCount = 0;
                     dropColumnCount = 0;
@@ -419,7 +420,7 @@ public class XmlToJava {
 
         try {
             if (!validColumnTypes.contains(attributes.getNamedItem("type").getTextContent())) {
-                throw new InvalidAttributeException("type", "column");
+                throw new InvalidAttributeException("type", "column", validColumnTypes);
             }
         } catch (NullPointerException e) {
             throw new NullAttributeException("type");
@@ -446,7 +447,7 @@ public class XmlToJava {
 
         try {
             if (!validOperators.contains(attributes.getNamedItem("operation").getTextContent())) {
-                throw new InvalidAttributeException("operation", "condition");
+                throw new InvalidAttributeException("operation", "condition", validOperators);
             }
         } catch (NullPointerException e) {
             throw new NullAttributeException("operation");

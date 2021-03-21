@@ -6,4 +6,8 @@ public class DropColumn {
     public DropColumn(String columnName) {
         this.columnName =  columnName;
     }
+
+    public String getColumnName() {
+        return columnName;
+    }
 }

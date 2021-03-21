@@ -8,7 +8,6 @@ public class Add {
     Column[] columns;
 
     public Add(List<Column> columns) {
-        System.out.println(columns.get(0).getName());
         this.columns = columns.toArray(new Column[0]);
     }
 
