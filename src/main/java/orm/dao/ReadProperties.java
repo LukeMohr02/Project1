@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-
+/**
+ * Reads "src/main/java/resources/database.properties" and connects to the specified database
+ */
 public class ReadProperties {
     String[] result;
     InputStream inputStream;

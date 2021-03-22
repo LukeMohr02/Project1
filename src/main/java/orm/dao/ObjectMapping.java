@@ -6,6 +6,9 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.util.Properties;
 
+/**
+ * Maps objects to/from database
+ */
 public class ObjectMapping {
     String persistenceUnitName;
     EntityManagerFactory emf;
@@ -16,7 +19,6 @@ public class ObjectMapping {
         persistenceUnitName = "Project1";
         emf = Persistence.createEntityManagerFactory(persistenceUnitName);
         em = emf.createEntityManager();
-        et = em.getTransaction();
     }
 
     public ObjectMapping() {
@@ -28,15 +30,32 @@ public class ObjectMapping {
 
     //TODO: add connection timeout
 
-    public void persist(Object o) {
+    // o --> object to persist
+    public void persistObject(Object o) {
 
-//      Properties properties = new Properties();
-
-
+        et = em.getTransaction();
         et.begin();
         em.persist(o);
         et.commit();
 
+    }
+
+    // c --> returned object class type
+    // o --> object's primary key value
+    public Object findObject(Class c, Object o) {
+        return em.find(c, o);
+    }
+
+    // c --> returned object class type
+    // o --> object's primary key value
+    public void deleteObject (Class c, Object o) {
+        et = em.getTransaction();
+        et.begin();
+        em.remove(findObject(c, o));
+        et.commit();
+    }
+
+    public void close() {
         em.close();
         emf.close();
     }

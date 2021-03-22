@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Finds all XML files in a given directory that can be processed by the framework
+ */
 public class FindValidFiles {
     DocumentBuilder db;
     Document[] validDocuments;
@@ -22,6 +25,7 @@ public class FindValidFiles {
     public FindValidFiles(String dir) {
         this.directory = new File(dir);
 
+        // Finds all XML files in a given directory
         xmlFiles = directory.listFiles(new FilenameFilter() {
             public boolean accept(File dir, String name) {
                 return name.endsWith(".xml");
@@ -41,6 +45,7 @@ public class FindValidFiles {
         return validDocuments;
     }
 
+    // Parses XML files
     public void setValidDocuments(File[] xmlFiles) {
         Document[] tempDocuments = new Document[xmlFiles.length];
 

@@ -13,6 +13,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Converts runnable xml document to a Java object that can be processed by the framework
+ */
 public class XmlToJava {
 
     XPathFactory xPathFactory;

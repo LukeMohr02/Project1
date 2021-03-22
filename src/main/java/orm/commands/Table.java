@@ -5,6 +5,9 @@ import orm.commands.table.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Table objects are created by XmlToJava and converted by JavaToSql
+ */
 public class Table {
     String schema;
     String name;

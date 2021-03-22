@@ -8,20 +8,13 @@ public class Animal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="id")
     private int id;
-    @Column(name="phylum")
-    private String phylum;
-    private String color;
+    private String type;
+    private int age;
+    private String favoriteColor;
 
     public Animal() {
 
-    }
-
-    public Animal(int id, String phylum, String color) {
-        this.id = id;
-        this.phylum = phylum;
-        this.color = color;
     }
 
     public int getId() {
@@ -32,24 +25,37 @@ public class Animal {
         this.id = id;
     }
 
-    public String getPhylum() {
-        return phylum;
+    public String getType() {
+        return type;
     }
 
-    public void setPhylum(String phylum) {
-        this.phylum = phylum;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getColor() {
-        return color;
+    public int getAge() {
+        return age;
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getFavoriteColor() {
+        return favoriteColor;
+    }
+
+    public void setFavoriteColor(String favoriteColor) {
+        this.favoriteColor = favoriteColor;
     }
 
     @Override
     public String toString() {
-        return "Animal with id " + id + " and phylum " + phylum;
+        return "Animal{" +
+                "id=" + id +
+                ", type='" + type + '\'' +
+                ", age=" + age +
+                ", favoriteColor='" + favoriteColor + '\'' +
+                '}';
     }
 }

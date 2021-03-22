@@ -18,7 +18,7 @@ public class Driver {
         JavaToSql javaToSql = new JavaToSql();
         SqlStatementExecutor executor = new SqlStatementExecutor();
         Logger logger = Logger.getLogger("Log file");
-        PropertyConfigurator.configure("C:\\Users\\Luke\\Desktop\\Computer Science\\gitrepos\\Project1\\src\\main\\resources\\log4j.properties");
+//        PropertyConfigurator.configure("C:\\Users\\Luke\\Desktop\\Computer Science\\gitrepos\\Project1\\src\\main\\resources\\log4j.properties");
 
         FindValidFiles fvf = new FindValidFiles("src/main/java/user/xml");
         List<Document> runnableDocuments = fvf.findRunnableDocuments(fvf.getValidDocuments());
