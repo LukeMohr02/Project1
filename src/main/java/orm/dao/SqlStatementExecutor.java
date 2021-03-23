@@ -1,9 +1,12 @@
 package orm.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import com.google.gson.Gson;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.*;
 
 /**
  * Connects to database, executes SQL statements
@@ -25,15 +28,35 @@ public class SqlStatementExecutor {
         if (statement.contains("select")) {
 
             try (Connection c = ConnectionPool.getConnection();
-                 PreparedStatement ps = c.prepareStatement(statement);
-                 ResultSet rs = ps.executeQuery()) {
+                PreparedStatement ps = c.prepareStatement(statement);
+                ResultSet rs = ps.executeQuery()) {
+
+                StringBuilder sb;
+                FileWriter writer = new FileWriter("src/main/java/user/json/SerializedObjects.json", true);
 
                 while (rs.next()) {
-                    // TODO: serialize query
+                    sb = new StringBuilder("{");
+                    ResultSetMetaData rsmd = rs.getMetaData();
+                    int columnCount = rsmd.getColumnCount();
+
+                    for (int i = 0; i < columnCount; i++) {
+                        sb.append("\"").append(rsmd.getColumnName(i + 1)).append("\": \"").append(rs.getObject(rsmd.getColumnName(i + 1))).append("\", ");
+                    }
+
+                    sb.delete(sb.length()-2, sb.length()-1);
+                    sb.append("}");
+
+                    writer.write(sb.toString() + System.lineSeparator());
                 }
+
+                writer.flush();
+                writer.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
-        // Non-query statement
+            // Non-query statement
         } else {
 
             try (Connection c = ConnectionPool.getConnection();

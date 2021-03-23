@@ -3,48 +3,48 @@
 <table schema="public" name="animal">
     <run priority="1"/>
 
-    <drop/>
+<!--    <drop/>-->
 
-    <create>
-        <column unique-id="true" type="auto-int">
-            id
-        </column>
+<!--    <create>-->
+<!--        <column unique-id="true" type="auto-int">-->
+<!--            id-->
+<!--        </column>-->
 
-        <column type="text" not-empty="true">
-            type
-        </column>
+<!--        <column type="text" not-empty="true">-->
+<!--            type-->
+<!--        </column>-->
 
-        <column type="int">
-            age
-        </column>
+<!--        <column type="int">-->
+<!--            age-->
+<!--        </column>-->
 
-        <column type="money">
-            sellPrice
-        </column>
-    </create>
+<!--        <column type="money">-->
+<!--            sellPrice-->
+<!--        </column>-->
+<!--    </create>-->
 
-    <alter>
-        <add>
-            <column type="text">
-                favoriteColor
-            </column>
-        </add>
-        <drop column="sellPrice"/>
-        <type column="age">
-            int
-        </type>
-        <constraint column="age">
-            not-empty
-        </constraint>
-    </alter>
+<!--    <alter>-->
+<!--        <add>-->
+<!--            <column type="text">-->
+<!--                favoriteColor-->
+<!--            </column>-->
+<!--        </add>-->
+<!--        <drop column="sellPrice"/>-->
+<!--        <type column="age">-->
+<!--            int-->
+<!--        </type>-->
+<!--        <constraint column="age">-->
+<!--            not-empty-->
+<!--        </constraint>-->
+<!--    </alter>-->
 
-    <random/>
+<!--    <random/>-->
 
-    <insert columns="type,age,favoriteColor">
-        ('bear',6,'brown'),
-        ('bird',2,'purple'),
-        ('snake',3,'green')
-    </insert>
+<!--    <insert columns="type,age,favoriteColor">-->
+<!--        ('bear',6,'brown'),-->
+<!--        ('bird',2,'purple'),-->
+<!--        ('snake',3,'green')-->
+<!--    </insert>-->
 
 <!--    <export>-->
 <!--        <condition column="I" operation="=">-->
@@ -60,29 +60,29 @@
 
     <export/>
 
-    <update columns="age,favoriteColor">
-        <values>
-            4,'blurple'
-        </values>
+<!--    <update columns="age,favoriteColor">-->
+<!--        <values>-->
+<!--            4,'blurple'-->
+<!--        </values>-->
 
-        <condition column="age" operation="=">
-            2
-        </condition>
+<!--        <condition column="age" operation="=">-->
+<!--            2-->
+<!--        </condition>-->
 
-        <condition column="favoriteColor" operation="=">
-            'purple'
-        </condition>
-    </update>
+<!--        <condition column="favoriteColor" operation="=">-->
+<!--            'purple'-->
+<!--        </condition>-->
+<!--    </update>-->
 
-    <insert columns="type,age,favoriteColor">
-        ('fake animal',10000,'pink')
-    </insert>
+<!--    <insert columns="type,age,favoriteColor">-->
+<!--        ('fake animal',10000,'pink')-->
+<!--    </insert>-->
 
-    <delete>
-        <condition column="type" operation="=">
-            'fakeanimal'
-        </condition>
-    </delete>
+<!--    <delete>-->
+<!--        <condition column="type" operation="=">-->
+<!--            'fakeanimal'-->
+<!--        </condition>-->
+<!--    </delete>-->
 
 
 </table>

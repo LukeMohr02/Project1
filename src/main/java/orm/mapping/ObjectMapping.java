@@ -1,4 +1,4 @@
-package orm.dao;
+package orm.mapping;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
