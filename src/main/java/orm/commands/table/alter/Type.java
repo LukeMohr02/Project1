@@ -1,8 +1,10 @@
 package orm.commands.table.alter;
 
+import org.jetbrains.annotations.NotNull;
+import orm.commands.table.Update;
 import orm.exceptions.InvalidTypeException;
 
-public class Type {
+public class Type implements Comparable<Type>  {
     String columnName;
     String type;
 
@@ -21,5 +23,16 @@ public class Type {
 
     public String getType() {
         return type;
+    }
+
+    @Override
+    public int compareTo(@NotNull Type t) {
+        int i = columnName.compareTo(t.columnName);
+        if (i != 0) return i;
+
+        i = type.compareTo(t.type);
+        if (i != 0) return i;
+
+        return 0;
     }
 }

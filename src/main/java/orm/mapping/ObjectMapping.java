@@ -17,7 +17,7 @@ public class ObjectMapping {
 
     {
         persistenceUnitName = "Project1";
-        emf = Persistence.createEntityManagerFactory(persistenceUnitName);
+        emf = Persistence.createEntityManagerFactory(persistenceUnitName);      // This line has the highest latency
         em = emf.createEntityManager();
     }
 

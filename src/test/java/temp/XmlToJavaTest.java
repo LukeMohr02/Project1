@@ -38,7 +38,6 @@ public class XmlToJavaTest {
 
         if (tableDDL != null) {
             System.out.println("   table name: " + tableDDL.getName());
-            System.out.println("   table schema: " + tableDDL.getSchema());
         }
 
         System.out.println("   <create> exists: " + (tableDDL.getCreate() != null));
@@ -88,7 +87,6 @@ public class XmlToJavaTest {
 
         if (tableDML != null) {
             System.out.println("   table name: " + tableDDL.getName());
-            System.out.println("   table schema: " + tableDDL.getSchema());
         }
 
         assert tableDML != null;

@@ -1,6 +1,8 @@
 package orm.commands;
 
-public class Column {
+import org.jetbrains.annotations.NotNull;
+
+public class Column implements Comparable<Column> {
     String name;
     String type;
     boolean notEmpty;
@@ -37,5 +39,26 @@ public class Column {
 
     public boolean isPrimaryKey() {
         return primaryKey;
+    }
+
+    @Override
+    public int compareTo(@NotNull Column c) {
+        boolean b;
+        int i = name.compareTo(c.name);
+        if (i != 0) return i;
+
+        i = type.compareTo(c.type);
+        if (i != 0) return i;
+
+        b = notEmpty == c.notEmpty;
+        if (!b) return 1;
+
+        b = unique == c.unique;
+        if (!b) return 1;
+
+        b = primaryKey == c.primaryKey;
+        if (!b) return 1;
+
+        return 0;
     }
 }

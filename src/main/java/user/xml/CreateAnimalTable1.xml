@@ -40,11 +40,11 @@
 
 <!--    <random/>-->
 
-<!--    <insert columns="type,age,favoriteColor">-->
-<!--        ('bear',6,'brown'),-->
-<!--        ('bird',2,'purple'),-->
-<!--        ('snake',3,'green')-->
-<!--    </insert>-->
+    <insert columns="type,age,favoriteColor">
+        ('bear',6,'brown'),
+        ('bird',2,'purple'),
+        ('snake',3,'green')
+    </insert>
 
 <!--    <export>-->
 <!--        <condition column="I" operation="=">-->

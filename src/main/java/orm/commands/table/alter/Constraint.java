@@ -1,6 +1,9 @@
 package orm.commands.table.alter;
 
-public class Constraint {
+import org.jetbrains.annotations.NotNull;
+import orm.commands.table.Update;
+
+public class Constraint implements Comparable<Constraint>  {
     String columnName;
     String constraint;
 
@@ -16,5 +19,17 @@ public class Constraint {
 
     public String getConstraint() {
         return constraint;
+    }
+
+    @Override
+    public int compareTo(@NotNull Constraint c) {
+
+        int i = columnName.compareTo(c.columnName);
+        if (i != 0) return i;
+
+        i = constraint.compareTo(c.constraint);
+        if (i != 0) return i;
+
+        return 0;
     }
 }

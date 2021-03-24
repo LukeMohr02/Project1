@@ -101,6 +101,14 @@ public class FindValidFiles {
             }
         }
 
+
+
         return documents;
     }
+
+    public File[] getXmlFiles() {
+        return xmlFiles;
+    }
+
+
 }

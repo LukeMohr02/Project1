@@ -1,4 +1,4 @@
-package user.classes;
+package user.model;
 
 import javax.persistence.*;
 

@@ -1,10 +1,8 @@
 package orm.utility;
 
-import org.apache.log4j.PropertyConfigurator;
 import org.w3c.dom.Document;
 import orm.commands.Table;
 import orm.dao.SqlStatementExecutor;
-import orm.dao.JavaToSql;
 import orm.exceptions.*;
 
 import javax.xml.xpath.XPathExpressionException;

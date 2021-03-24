@@ -47,7 +47,6 @@ public class XmlToJava {
 
         Table table = new Table();
 
-
         // <table>
         for (int i = 0; i < nl.getLength(); i++) {
             Node tableName = nl.item(0).getAttributes().getNamedItem("name");

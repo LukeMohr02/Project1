@@ -1,4 +1,4 @@
-package orm.dao;
+package orm.utility;
 
 import orm.commands.*;
 import orm.commands.table.*;

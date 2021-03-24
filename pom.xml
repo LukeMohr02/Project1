@@ -130,11 +130,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.6</version>
-                <configuration>
-                    <destFile>${basedir}/target/coverage-reports/jacoco-unit.exec</destFile>
-                    <dataFile>${basedir}/target/coverage-reports/jacoco-unit.exec</dataFile>
-                </configuration>
+                <version>0.7.6.201602180812</version>
                 <executions>
                     <execution>
                         <id>jacoco-initialize</id>
@@ -165,7 +161,7 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <phase>process-classes</phase>
+                        <phase>test</phase>
                         <goals>
                             <goal>enhance</goal>
                         </goals>

@@ -1,6 +1,9 @@
 package orm.commands.table.condition;
 
-public class Condition {
+import org.jetbrains.annotations.NotNull;
+import orm.commands.table.Update;
+
+public class Condition implements Comparable<Condition>  {
     String column;
     String operator;
     String targetColumn;
@@ -27,5 +30,20 @@ public class Condition {
 
     public String getTargetColumn() {
         return targetColumn;
+    }
+
+
+    @Override
+    public int compareTo(@NotNull Condition c) {
+        int i = column.compareTo(c.column);
+        if (i != 0) return i;
+
+        i = operator.compareTo(c.operator);
+        if (i != 0) return i;
+
+        i = targetColumn.compareTo(c.targetColumn);
+        if (i != 0) return i;
+
+        return 0;
     }
 }

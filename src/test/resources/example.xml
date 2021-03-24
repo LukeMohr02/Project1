@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<table schema="public" name="example">
+    <run priority="1"/>
+
+        <drop/>
+
+        <create>
+            <column unique-id="true" type="auto-int">
+                id
+            </column>
+
+            <column type="text" not-empty="true">
+                C1
+            </column>
+
+            <column type="int">
+                C2
+            </column>
+
+            <column type="money">
+                C3
+            </column>
+        </create>
+
+        <alter>
+            <add>
+                <column type="text">
+                    CAdd
+                </column>
+            </add>
+            <drop column="C1"/>
+            <type column="C2">
+                int
+            </type>
+            <constraint column="C3">
+                unique
+            </constraint>
+        </alter>
+
+        <random-tag/>
+
+        <insert columns="C1,C3,CAdd">
+            ('text1',6,'textA'),
+            ('text2',2,'textB'),
+            ('text3',3,'textC')
+        </insert>
+
+        <export/>
+
+        <update columns="C3,CAdd">
+            <values>
+                4,'updatedText'
+            </values>
+
+            <condition column="C3" operation="=">
+                C3
+            </condition>
+        </update>
+
+        <delete>
+            <condition column="C3" operation="=">
+                C3
+            </condition>
+        </delete>
+
+
+</table>

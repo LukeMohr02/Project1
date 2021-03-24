@@ -1,8 +1,8 @@
 package user.utility;
 
 import orm.mapping.ObjectMapping;
-import user.classes.Animal;
-import user.classes.Classification;
+import user.model.Animal;
+import user.model.Classification;
 
 /**
  * This is an example of a driver that can be created by a user
