@@ -12,28 +12,28 @@ public class UserDriver {
         Animal animal = new Animal();
         animal.setType("alligator");
         animal.setFavoriteColor("green");
-        animal.setAge(17);
+        animal.setAge(30);
 
         ObjectMapping om = new ObjectMapping();
 
 //        om.persistObject(animal);
-//        om.deleteObject(Animal.class, 5);
-//        Animal a2 = (Animal) om.findObject(Animal.class, 3);
+//        om.deleteObject(Animal.class, 7);
+//        Animal a2 = (Animal) om.findObject(Animal.class, 4);
 
 //        System.out.println(a2);
 
 
-        Classification classification = new Classification();
-        classification.setAnimal(animal);
-        classification.setPhylum("Chordata");
-        classification.setClazz("Reptilia");
-        classification.setOrder("Crocodilia");
-        classification.setFamily("Alligatoridae");
-        classification.setGenus("Alligator");
-        classification.setSpecies("Alligator mississippiensis");
-
-        om.persistObject(classification);
-
-        om.close();
+//        Classification classification = new Classification();
+//        classification.setAnimal(animal);
+//        classification.setPhylum("Chordata");
+//        classification.setClazz("Reptilia");
+//        classification.setOrder("Crocodilia");
+//        classification.setFamily("Alligatoridae");
+//        classification.setGenus("Alligator");
+//        classification.setSpecies("Alligator mississippiensis");
+//
+//        om.persistObject(classification);
+//
+//        om.close();
     }
 }

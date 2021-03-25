@@ -30,7 +30,7 @@ public class ObjectMappingTest {
 
     @Test
     public void deleteObjectTest() {
-        om.deleteObject(ExampleModel.class, 34);
+        om.deleteObject(ExampleModel.class, 49);
     }
 
     @Test

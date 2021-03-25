@@ -153,7 +153,7 @@
                 <version>0.7.6.201602180812</version>
                 <configuration>
                     <excludes>
-                        <exclude>**/**</exclude>
+                        <exclude>**/*.class</exclude>
                     </excludes>
                 </configuration>
                 <executions>
@@ -164,8 +164,8 @@
                         </goals>
                     </execution>
                     <execution>
-                        <id>jacoco-site</id>
-                        <phase>package</phase>
+                        <id>jacoco-report</id>
+                        <phase>test</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>

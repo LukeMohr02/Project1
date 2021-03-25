@@ -59,7 +59,7 @@ public  class GetTable {
 
     public static String[] getDummyTableSql() {
         return new String[] {
-            "drop table TestTable;",
+            "drop table TestTable cascade;",
             "create table TestTable(column1 text primary key, column2 int not null, column3 serial unique, column4 decimal , column5 money not null unique );",
             "alter table TestTable add column6 bool  ;",
             "alter table TestTable drop column column4;",

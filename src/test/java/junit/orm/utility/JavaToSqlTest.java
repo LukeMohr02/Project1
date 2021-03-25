@@ -10,22 +10,27 @@ import orm.exceptions.InvalidTypeException;
 import orm.utility.JavaToSql;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 
 public class JavaToSqlTest {
     JavaToSql jts;
     Table dummyTable;
     String[] dummySql;
 
-    public JavaToSqlTest() throws ColumnMismatchException, InvalidTypeException {
+    {
         jts = new JavaToSql();
         GetTable dt = new GetTable();
         dummyTable = dt.generateDummyTable();
         dummySql = GetTable.getDummyTableSql();
     }
 
+    public JavaToSqlTest() throws ColumnMismatchException, InvalidTypeException {
+
+    }
+
     @Test
     public void findCommandsTest() {
-        Assert.assertArrayEquals(jts.findCommands(new Table()), new String[0]);
-        Assert.assertArrayEquals(jts.findCommands(dummyTable), dummySql);
+        Assert.assertArrayEquals(dummySql, jts.findCommands(dummyTable));
+        Assert.assertArrayEquals(new String[0], jts.findCommands(new Table()));
     }
 }

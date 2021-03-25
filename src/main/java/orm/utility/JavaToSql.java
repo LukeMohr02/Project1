@@ -167,7 +167,7 @@ public class JavaToSql {
 
     // Converts Drop object to SQL statement
     public String formulateDrop(Drop drop) {
-        return "drop table "+tableName+";";
+        return "drop table "+tableName+" cascade;";
     }
 
 
