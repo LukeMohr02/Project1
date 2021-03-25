@@ -34,11 +34,11 @@ public class XmlToJavaTest {
 
     @Test
     public void runDDLTest() throws NullAttributeException, InvalidAttributeException, XPathExpressionException, NullTagException, MultipleTagsException, NullContentException, InvalidTypeException, InvalidContentException, SQLException {
-        Assert.assertEquals(xtj.runDDL(exampleDocument).compareTo(ddlTable), 0);
+        Assert.assertEquals(0, xtj.runDDL(exampleDocument).compareTo(ddlTable));
     }
 
     @Test
     public void runDMLTest() throws NullAttributeException, ColumnMismatchException, InvalidAttributeException, XPathExpressionException, NullTagException, MultipleTagsException, NullContentException, InvalidContentException {
-        Assert.assertEquals(xtj.runDML(exampleDocument).compareTo(dmlTable), 0);
+        Assert.assertEquals(0, xtj.runDML(exampleDocument).compareTo(dmlTable));
     }
 }

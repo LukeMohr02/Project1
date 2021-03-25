@@ -14,10 +14,10 @@ import java.sql.SQLException;
 
 public class TestRunner {
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException, NullContentException, NullAttributeException, InvalidContentException, XPathExpressionException, NullTagException, InvalidAttributeException, MultipleTagsException, InvalidTypeException, ColumnMismatchException, SQLException {
-
         // FindValidFiles
         FindValidFilesTest fvft = new FindValidFilesTest();
         fvft.setValidDocumentsTest();
+        fvft.findRunnableDocumentsTest();
 
         // XmlToJava
         XmlToJavaTest xtjt = new XmlToJavaTest();
@@ -34,9 +34,9 @@ public class TestRunner {
 
         // ObjectMapping
         ObjectMappingTest omt = new ObjectMappingTest();
+        omt.deleteObjectTest();
         omt.persistObjectTest();
         omt.findObjectTest();
-        omt.deleteObjectTest();
         omt.closeTest();
     }
 }

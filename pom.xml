@@ -128,9 +128,34 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.datanucleus</groupId>
+                <artifactId>datanucleus-maven-plugin</artifactId>
+                <version>5.2.1</version>
+                <configuration>
+                    <api>JPA</api>
+                    <persistenceUnitName>Project1</persistenceUnitName>
+                    <!--                    <log4jConfiguration>${basedir}/log4j.properties</log4jConfiguration>-->
+                    <verbose>true</verbose>
+                    <schemaName>public</schemaName>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>enhance</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.7.6.201602180812</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/**</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <id>jacoco-initialize</id>
@@ -143,27 +168,6 @@
                         <phase>package</phase>
                         <goals>
                             <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.datanucleus</groupId>
-                <artifactId>datanucleus-maven-plugin</artifactId>
-                <version>5.2.1</version>
-                <configuration>
-                    <api>JPA</api>
-                    <persistenceUnitName>Project1</persistenceUnitName>
-<!--                    <log4jConfiguration>${basedir}/log4j.properties</log4jConfiguration>-->
-                    <verbose>true</verbose>
-                    <schemaName>public</schemaName>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>enhance</goal>
                         </goals>
                     </execution>
                 </executions>

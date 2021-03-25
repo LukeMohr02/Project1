@@ -20,10 +20,10 @@ public class FindValidFilesTest {
     Document[] expected;
 
     public FindValidFilesTest() throws ParserConfigurationException, IOException, SAXException {
-        directory = new File("src/main/resources/META-INF");
+        directory = new File("src/test/resources");
         fvf = new FindValidFiles(directory.getAbsolutePath());
         db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        expected = new Document[]{db.parse(new File("src/main/resources/META-INF/persistence.xml"))};
+        expected = new Document[]{db.parse(new File("src/test/resources/example.xml"))};
     }
 
     @Test
@@ -32,13 +32,13 @@ public class FindValidFilesTest {
         fvf.setValidDocuments(fvf.getXmlFiles());
 
         for (int i = 0; i < fvf.getValidDocuments().length; i++) {
-            Assert.assertEquals(fvf.getValidDocuments()[i].getDocumentURI(), expected[i].getDocumentURI());
+            Assert.assertEquals(expected[i].getDocumentURI(), fvf.getValidDocuments()[i].getDocumentURI());
         }
 
     }
 
     @Test
     public void findRunnableDocumentsTest() {
-        Assert.assertArrayEquals(fvf.findRunnableDocuments(expected).toArray(), expected);
+        Assert.assertArrayEquals(expected, fvf.findRunnableDocuments(expected).toArray());
     }
 }

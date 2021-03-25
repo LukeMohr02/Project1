@@ -22,7 +22,7 @@ public class SqlStatementExecutor {
 
     // Executes single SQL statement
     public void execute(String statement) throws SQLException {
-        System.out.println(statement);
+//        System.out.println(statement);
 
         // Query statement
         if (statement.contains("select")) {
@@ -32,7 +32,7 @@ public class SqlStatementExecutor {
                 ResultSet rs = ps.executeQuery()) {
 
                 StringBuilder sb;
-                FileWriter writer = new FileWriter("src/main/java/user/json/SerializedObjects.json", true);
+                FileWriter writer = new FileWriter("src/main/java/user/json/SerializedObjects.txt", true);
 
                 while (rs.next()) {
                     sb = new StringBuilder("{");
