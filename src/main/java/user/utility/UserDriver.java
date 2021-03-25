@@ -12,14 +12,14 @@ public class UserDriver {
         Animal animal = new Animal();
         animal.setType("alligator");
         animal.setFavoriteColor("green");
-        animal.setAge(30);
+        animal.setAge(17);
 
         ObjectMapping om = new ObjectMapping();
 
-//        om.persistObject(animal);
-//        om.deleteObject(Animal.class, 7);
-//        Animal a2 = (Animal) om.findObject(Animal.class, 4);
-
+        om.persistObject(animal);
+//        om.deleteObject(Animal.class, 1);
+//        Animal a2 = (Animal) om.findObject(Animal.class, 2);
+//
 //        System.out.println(a2);
 
 

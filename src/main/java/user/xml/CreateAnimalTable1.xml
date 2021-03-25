@@ -3,25 +3,25 @@
 <table schema="public" name="animal">
     <run priority="1"/>
 
-<!--    <drop/>-->
+    <drop/>
 
-<!--    <create>-->
-<!--        <column unique-id="true" type="auto-int">-->
-<!--            id-->
-<!--        </column>-->
+    <create>
+        <column unique-id="true" type="auto-int">
+            id
+        </column>
 
-<!--        <column type="text" not-empty="true">-->
-<!--            type-->
-<!--        </column>-->
+        <column type="text" not-empty="true">
+            type
+        </column>
 
-<!--        <column type="int">-->
-<!--            age-->
-<!--        </column>-->
+        <column type="int">
+            age
+        </column>
 
-<!--        <column type="money">-->
-<!--            sellPrice-->
-<!--        </column>-->
-<!--    </create>-->
+        <column type="money">
+            sellPrice
+        </column>
+    </create>
 
 <!--    <alter>-->
 <!--        <add>-->
@@ -38,7 +38,6 @@
 <!--        </constraint>-->
 <!--    </alter>-->
 
-<!--    <random/>-->
 
 <!--    <insert columns="type,age,favoriteColor">-->
 <!--        ('bear',6,'brown'),-->

@@ -28,8 +28,6 @@ public class ObjectMapping {
     // if NucleusUserException pops up (multiple copies of persistence API jar in CLASSPATH),
     //      run this: mvn datanucleus:enhance
 
-    //TODO: add connection timeout
-
     // o --> object to persist
     public void persistObject(Object o) {
 
