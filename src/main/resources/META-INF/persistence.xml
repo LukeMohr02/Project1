@@ -10,6 +10,7 @@
     <persistence-unit name="Project1">
         <provider>org.datanucleus.api.jpa.PersistenceProviderImpl</provider>
 
+<!--        Database configuration for programmatic persistence-->
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://animal.csf1elrfwgmr.us-west-1.rds.amazonaws.com:5432/animal"/>
             <property name="javax.persistence.jdbc.user" value="lukemohr"/>

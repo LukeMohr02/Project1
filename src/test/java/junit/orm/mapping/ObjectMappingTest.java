@@ -23,14 +23,14 @@ public class ObjectMappingTest {
         Assert.assertEquals(m.compareTo((ExampleModel) om.findObject(ExampleModel.class, m.getId())), 0);
     }
 
-    @Test()
+    @Test
     public void findObjectTest() {
         Assert.assertNotNull(om.findObject(ExampleModel.class, 1));
     }
 
     @Test
     public void deleteObjectTest() {
-        om.deleteObject(ExampleModel.class, 49);
+        om.deleteObject(ExampleModel.class, 50);
     }
 
     @Test

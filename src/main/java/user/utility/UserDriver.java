@@ -15,11 +15,10 @@ public class UserDriver {
         animal.setAge(17);
 
         ObjectMapping om = new ObjectMapping();
-
         om.persistObject(animal);
 //        om.deleteObject(Animal.class, 1);
 //        Animal a2 = (Animal) om.findObject(Animal.class, 2);
-//
+
 //        System.out.println(a2);
 
 
