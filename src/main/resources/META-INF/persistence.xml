@@ -12,9 +12,9 @@
 
 <!--        Database configuration for programmatic persistence-->
         <properties>
-            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://animal.csf1elrfwgmr.us-west-1.rds.amazonaws.com:5432/animal"/>
-            <property name="javax.persistence.jdbc.user" value="lukemohr"/>
-            <property name="javax.persistence.jdbc.password" value="4815162342"/>
+            <property name="javax.persistence.jdbc.url" value=""/>
+            <property name="javax.persistence.jdbc.user" value=""/>
+            <property name="javax.persistence.jdbc.password" value=""/>
             <property name="datanucleus.schema.autoCreateAll" value="true"/>
             <property name="datanucleus.identifier.case" value="lowercase"/>
         </properties>
