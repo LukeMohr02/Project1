@@ -1,5 +1,5 @@
 # Project1
-Project 1 for the Revature 2102 Java Enterprise Batch
+Author: Luke Mohr
 
 ## Description
 This is a custom ORM that allows users to choose between programmatic persistence and file-based persistence. Users can
