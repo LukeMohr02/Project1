@@ -1,4 +1,4 @@
-# Project1
+# Project 1
 Author: Luke Mohr
 
 ## Description
@@ -33,7 +33,7 @@ Everything in the user package can be changed by the user to suit their needs. S
 subdirectory is set up as follows:
   - model - entity are defined here, annotated with JPA
   
-###Programmatic persistence:
+#### Programmatic persistence:
   - utility - UserDriver is where programmatic CRUD operations take place
     1. Instantiate ObjectMapping (om)
     2. Instantiate models
@@ -43,7 +43,7 @@ subdirectory is set up as follows:
         - om.deleteObject(entity.class, entityPOJO)
     4. om.close()
     5. 
-###File-based persistence:
+#### File-based persistence:
   - json - SerializedObjects.txt is the output file for file-based database calls.
     
   - xml - XML documents inside of this directory will be parsed and converted into SQL. Example documents are provided.
