@@ -42,9 +42,13 @@ subdirectory is set up as follows:
         - om.findObject(entity.class, entityPOJO)
         - om.deleteObject(entity.class, entityPOJO)
     4. om.close()
+    5. 
 ####File-based persistence:
   - json - SerializedObjects.txt is the output file for file-based database calls.
     
   - xml - XML documents inside of this directory will be parsed and converted into SQL. Example documents are provided.
     Proper syntax is layed out in the resources/Tags.txt file. Arrange XML and then run orm.utility.Driver to parse
     through and convert to SQL.
+
+## License
+https://github.com/LukeMohr02/Project1/blob/main/LICENSE.txt
