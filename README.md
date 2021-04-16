@@ -42,7 +42,7 @@ subdirectory is set up as follows:
         - om.findObject(entity.class, entityPOJO)
         - om.deleteObject(entity.class, entityPOJO)
     4. om.close()
-    5. 
+
 #### File-based persistence:
   - json - SerializedObjects.txt is the output file for file-based database calls.
     
