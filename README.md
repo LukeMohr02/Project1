@@ -2,7 +2,7 @@
 Author: Luke Mohr
 
 ## Description
-This is a custom ORM framwrokg that allows users to choose between programmatic persistence and file-based persistence.
+This is a custom ORM framework that allows users to choose between programmatic persistence and file-based persistence.
 Users can choose to configure entities either programmatically by persisting JPA-compliant objects or using XML configuration.
 All SQL implementation is abstracted away from the user.
 
